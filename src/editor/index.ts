@@ -1,7 +1,9 @@
 import Rete from "rete";
+// @ts-ignore
 import VueRenderPlugin from "rete-vue-render-plugin";
 import ConnectionPlugin from "rete-connection-plugin";
 import ContextMenuPlugin from "rete-context-menu-plugin";
+//@ts-ignore
 import AreaPlugin from "rete-area-plugin";
 import DockPlugin from "rete-dock-plugin";
 import 'regenerator-runtime/runtime'
@@ -11,17 +13,20 @@ import {NumComponent} from "@/editor/components/NumComponent";
 import {TextComponent} from "@/editor/components/TextComponent";
 import {CombineComponent} from "@/editor/components/CombineComponent";
 import {HeaderComponent} from "@/editor/components/HeaderComponent";
+import {NumVarComponent} from "@/editor/variables/NumVarComponent";
+import {TriggerComponent} from "@/editor/TriggerComponent";
+import {SetVarComponent} from "@/editor/variables/SetVarComponent";
 
-export default async function (container) {
+async function init (container: HTMLElement) {
     const editor = new Rete.NodeEditor("demo@0.1.0", container);
-    var engine = new Rete.Engine('demo@0.1.0');
+    const engine = new Rete.Engine('demo@0.1.0');
     editor.use(ConnectionPlugin);
     editor.use(VueRenderPlugin);
     editor.use(AreaPlugin, {
         background: false,
         snap: false,
-        scaleExtent: { min: 0.25, max: 1 },
-        translateExtent: { width: 5000, height: 4000 }
+        scaleExtent: {min: 0.25, max: 1},
+        translateExtent: {width: 5000, height: 4000}
     });
 
     // register before dock plugin to prevent showing in dock
@@ -34,27 +39,27 @@ export default async function (container) {
     editor.use(ContextMenuPlugin);
 
     editor.use(DockPlugin, {
+        //@ts-ignore
         container: document.querySelector(".dock"),
         plugins: [VueRenderPlugin] // render plugins
     });
 
+    const compList =
+        [
+            new AddComponent(),
+            new NumComponent(),
+            new TextComponent(),
+            new CombineComponent(),
+            new HeaderComponent(),
+            new NumVarComponent(),
+            new TriggerComponent(),
+            new SetVarComponent()
+        ];
 
-    const addComp = new AddComponent();
-    const numComp = new NumComponent();
-    const txtComp = new TextComponent();
-    const combComp = new CombineComponent();
-    const hComp = new HeaderComponent();
-    editor.register(addComp);
-    editor.register(numComp);
-    editor.register(txtComp);
-    editor.register(combComp);
-    editor.register(hComp);
-
-    engine.register(addComp);
-    engine.register(numComp);
-    engine.register(txtComp);
-    engine.register(combComp);
-    engine.register(hComp)
+    for (let i = 0; i < compList.length; i++) {
+        editor.register(compList[i]);
+        engine.register(compList[i]);
+    }
 
     // add starting node
     await editor.fromJSON({
@@ -63,13 +68,18 @@ export default async function (container) {
             "1": {
                 id: 1,
                 position: [100, 50],
-                name: "OutputComponent"
+                name: "OutputComponent",
+                //@ts-ignore
+                inputs: null,
+                //@ts-ignore
+                outputs: null,
+                data: null,
             }
         }
     });
 
     editor.on(
-        "connectioncreate connectionremove nodecreate noderemove",
+        ["connectioncreate", "connectionremove", "nodecreate", "noderemove"],
         (data) => {
             console.log("editor something", data);
             console.log("editor", editor.toJSON());
@@ -84,3 +94,5 @@ export default async function (container) {
 
     editor.view.resize();
 }
+
+export {init};

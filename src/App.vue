@@ -13,17 +13,19 @@
   </div>
 </template>
 
-<script>
+<script lang="js">
+import 'regenerator-runtime/runtime'
+import { Options, Vue } from 'vue-class-component';
+import ReteEditor from './components/ReteEditor.vue';
+import ReteDock from './components/ReteDock.vue';
 
-import ReteDock from "@/components/ReteDock";
-import ReteEditor from "@/components/ReteEditor";
-export default {
-  name: "App",
+@Options({
   components: {
-    ReteDock,
     ReteEditor,
+    ReteDock,
   },
-};
+})
+export default class App extends Vue {}
 </script>
 
 <style>

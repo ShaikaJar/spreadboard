@@ -2,9 +2,9 @@
   <div class="rete" ref="reteElm"></div>
 </template>
 
-<script>
+<script lang="js">
 import { ref, onMounted } from "vue";
-import init from "../editor";
+import {init} from "@/editor";
 export default {
   name: "ReteEditor",
   setup() {
@@ -27,5 +27,14 @@ export default {
   order: 2;
   border-left: 1px solid green;
   border-top: 1px solid green;
+}
+.socket.act{
+  background: coral;
+}
+.socket[title~="ref"]{
+  background: darkmagenta;
+}
+.socket.type{
+  background: cornflowerblue;
 }
 </style>
