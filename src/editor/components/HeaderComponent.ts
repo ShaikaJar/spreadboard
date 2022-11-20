@@ -3,15 +3,16 @@ import * as Sockets from "@/editor/sockets";
 import {TextControl} from "@/editor/components/TextControl";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
+import i18n from "@/i18n";
 
 export class HeaderComponent extends Rete.Component {
     constructor(){
-        super("Header");
+        super(i18n.de.header);
     }
 
     async builder(node: RNode) {
-        const inp1 = new Rete.Input('txt',"Text", Sockets.string);
-        const out = new Rete.Output('h', "header", Sockets.string);
+        const inp1 = new Rete.Input('txt',i18n.de.txt, Sockets.types.get("text")!.valSocket);
+        const out = new Rete.Output('h', i18n.de.header, Sockets.types.get("text")!.valSocket);
 
         inp1.addControl(new TextControl(this.editor, 'txt', false));
 

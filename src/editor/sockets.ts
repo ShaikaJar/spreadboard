@@ -15,6 +15,8 @@ class SocketType {
 
 const typeSocket = new RSocket("type");
 
+const anyTypeSocket = new SocketType("any");
+
 class SocketTypeMap {
     private types: Map<string, SocketType>;
     constructor() {
@@ -22,8 +24,12 @@ class SocketTypeMap {
     }
 
     add(typeName:string) {
-        if (!(typeName in this.types.keys()))
-            this.types.set(typeName, new SocketType(typeName));
+        if (!(typeName in this.types.keys())) {
+            const socket = new SocketType(typeName)
+            this.types.set(typeName,socket);
+            socket.refSocket.combineWith(anyTypeSocket.refSocket);
+            socket.valSocket.combineWith(anyTypeSocket.valSocket);
+        }
     }
 
     get(typeName:string) {
@@ -39,9 +45,8 @@ types.add("boolean")
 
 const actSocket = new Rete.Socket("act");
 
-const string = new Rete.Socket("String");
 
-types.get("number")!.valSocket.combineWith(string);
+types.get("number")!.valSocket.combineWith(types.get("text")!.valSocket);
 
 
-export {string, SocketType, types, actSocket, typeSocket};
+export {SocketType, types, actSocket, typeSocket, anyTypeSocket};

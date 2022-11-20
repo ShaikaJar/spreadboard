@@ -4,11 +4,12 @@ import {ButtonControl} from "@/editor/components/ButtonControl";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import {TaskComponent} from "@/editor/TaskComponent";
+import i18n from "@/i18n";
 
 export class TriggerComponent extends TaskComponent {
 
     constructor(){
-        super('Button event');
+        super(i18n.de.trigger);
     }
 
     async builder(node: RNode) {
@@ -19,10 +20,7 @@ export class TriggerComponent extends TaskComponent {
     }
 
     worker(node: DNode, inputs:IOs, outputs:IOs): any {
-        const superReturn = super.worker(node,inputs,outputs);
-        node = superReturn.node;
-        inputs = superReturn.inputs;
-        outputs = superReturn.outputs;
+        super.worker(node,inputs,outputs);
     }
 
     async task(node: DNode, inputs: IOs, outputs: IOs, event: string) {

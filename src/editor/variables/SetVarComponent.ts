@@ -5,62 +5,72 @@ import {Variable} from "./Variable";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import {TaskComponent} from "@/editor/TaskComponent";
+import i18n from "@/i18n";
 
 export class SetVarComponent extends TaskComponent {
 
     types: Map<number, string>;
 
     constructor() {
-        super("Set Variable");
+        super(i18n.de.setVar);
         this.types = new Map<number, string>();
     }
 
-    async builder(node:RNode) {
-        const ipType = new Rete.Input('type', "Type", Sockets.typeSocket);
-        const inpAct = new Rete.Input('act', "Action", Sockets.actSocket);
-        const outAct = new Rete.Output('act', "Action", Sockets.actSocket);
+    async builder(node: RNode) {
+        const inRef = new Rete.Input('ref', i18n.de.ref, Sockets.anyTypeSocket.refSocket);
+        const inVal = new Rete.Input('val', i18n.de.val, Sockets.anyTypeSocket.valSocket);
 
+
+        const inpAct = new Rete.Input('act', i18n.de.act, Sockets.actSocket);
+        const outAct = new Rete.Output('act', i18n.de.act, Sockets.actSocket);
 
 
         return node
-            .addControl(new NumControl(this.editor, 'preview', true))
-            .addInput(ipType)
+            .addControl(new NumControl(this.editor, 'preview', false))
+            .addInput(inRef)
+            .addInput(inVal)
             .addInput(inpAct)
             .addOutput(outAct);
     }
 
-    worker(node: DNode, inputs:IOs, outputs:IOs): any {
-        const superReturn = super.worker(node,inputs,outputs);
-        node = superReturn.node;
-        inputs = superReturn.inputs;
-        outputs = superReturn.outputs;
-        console.log("SetVar-Inputs", inputs)
-
-        const type: string = inputs['type'][0];
-
-        if(type == this.types.get(node.id))
-            return;
-
-        this.types.set(node.id, type);
+    worker(node: DNode, inputs: IOs, outputs: IOs): any {
+        super.worker(node, inputs, outputs);
 
         // @ts-ignore
         const nodeComp: RNode = this.editor!.nodes!.find(n => n.id == node.id);
 
-        if(nodeComp.inputs.get("ref"))
-            nodeComp.removeInput(nodeComp.inputs.get("ref")!);
-        if(nodeComp.inputs.get("val"))
-            nodeComp.removeInput(nodeComp.inputs.get("val")!);
+        // @ts-ignore
+        const refConnection = nodeComp.getConnections().find((value, index) => (value.input.key == 'ref'));
 
-        nodeComp.addInput(new Rete.Input('ref', "Reference", Sockets.types.get(type)!.refSocket));
-        nodeComp.addInput(new Rete.Input('val', "Reference", Sockets.types.get(type)!.valSocket));
+        // @ts-ignore
+        const valConnection = nodeComp.getConnections().find((value, index) => (value.input.key == 'val'));
 
+        if (refConnection && refConnection.output.socket &&
+            valConnection && valConnection.output.socket &&
+            valConnection.output.socket != refConnection.output.socket) {
+            valConnection.remove();
+        }
+        else if(refConnection && refConnection.output.socket){
+            nodeComp.inputs.get('val')!.socket = Sockets.types.get(refConnection.output.socket.name.replace(" ref",""))!.valSocket;
+        }
+        else if(valConnection && valConnection.output.socket){
+            nodeComp.inputs.get('ref')!.socket = Sockets.types.get(valConnection.output.socket.name.replace(" val",""))!.refSocket;
+        }
+        else{
+            if(refConnection)
+                refConnection.remove();
+            if(valConnection)
+                valConnection.remove();
+            nodeComp.inputs.get('ref')!.socket = Sockets.anyTypeSocket.refSocket;
+            nodeComp.inputs.get('val')!.socket = Sockets.anyTypeSocket.valSocket;
+        }
 
     }
 
-    async task(node: DNode, inputs: IOs, outputs: IOs, event: any){
+    async task(node: DNode, inputs: IOs, outputs: IOs, event: any) {
         const ref = inputs['ref'][0];
         const val = inputs['val'][0];
-        if(ref && val){
+        if (ref && val) {
             ref.set(val);
         }
         return outputs;
