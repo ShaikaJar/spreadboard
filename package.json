@@ -16,7 +16,7 @@
     "rete-context-menu-plugin": "^1.0.0-alpha9",
     "rete-dock-plugin": "^0.2.1",
     "sass-loader": "^13.2.0",
-    "vue": "^3.2.13",
+    "vue": "^3.2.36",
     "vue-class-component": "^8.0.0-0"
   },
   "devDependencies": {
@@ -28,6 +28,7 @@
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "@vue/compiler-sfc": "^3.2.45",
     "@vue/eslint-config-typescript": "^9.1.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
