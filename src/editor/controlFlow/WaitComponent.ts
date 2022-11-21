@@ -18,7 +18,7 @@ export class WaitComponent extends TaskComponent {
 
     async builder(node: RNode) {
 
-        const preview: NumControl = new NumControl((trig:string,val:number)=>{}, 'preview', true);
+        const preview: NumControl = new NumControl(this.editor, 'preview', true);
 
         const inTime = new Rete.Input('val', i18n.de.initTime, Sockets.types.get("number")!.valSocket);
 
@@ -29,7 +29,7 @@ export class WaitComponent extends TaskComponent {
             this.editor.trigger("process");
         });
 
-        inTime.addControl(new NumControl((event:string,val:number)=>variable.setInitial(val), 'val', false));
+        inTime.addControl(new NumControl(()=>{}, 'val', false));
 
         this.variables.set(node.id,variable);
 
