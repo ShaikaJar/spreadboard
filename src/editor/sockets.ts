@@ -1,4 +1,4 @@
-import Rete, {Socket as RSocket} from "rete";
+import Rete, {Socket, Socket as RSocket} from "rete";
 
 
 class SocketType {
@@ -30,6 +30,13 @@ class SocketTypeMap {
             socket.refSocket.combineWith(anyTypeSocket.refSocket);
             socket.valSocket.combineWith(anyTypeSocket.valSocket);
         }
+    }
+
+    getRefByVal(socket: Socket):Socket{
+        return this.get(socket.name.replace(" val",""))!.refSocket;
+    }
+    getValByRef(socket: Socket):Socket{
+        return this.get(socket.name.replace(" ref",""))!.valSocket;
     }
 
     get(typeName:string) {

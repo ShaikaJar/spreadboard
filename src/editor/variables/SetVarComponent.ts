@@ -47,19 +47,16 @@ export class SetVarComponent extends TaskComponent {
 
         if (refConnection && refConnection.output.socket &&
             valConnection && valConnection.output.socket &&
-            valConnection.output.socket != refConnection.output.socket) {
+            valConnection.output.socket != Sockets.types.getValByRef(refConnection.output.socket)) {
             valConnection.remove();
-        }
-        else if(refConnection && refConnection.output.socket){
-            nodeComp.inputs.get('val')!.socket = Sockets.types.get(refConnection.output.socket.name.replace(" ref",""))!.valSocket;
-        }
-        else if(valConnection && valConnection.output.socket){
-            nodeComp.inputs.get('ref')!.socket = Sockets.types.get(valConnection.output.socket.name.replace(" val",""))!.refSocket;
-        }
-        else{
-            if(refConnection)
+        } else if (refConnection && refConnection.output.socket) {
+            nodeComp.inputs.get('val')!.socket = Sockets.types.getValByRef(refConnection.output.socket);
+        } else if (valConnection && valConnection.output.socket) {
+            nodeComp.inputs.get('ref')!.socket = Sockets.types.getRefByVal(valConnection.output.socket);
+        } else {
+            if (refConnection)
                 refConnection.remove();
-            if(valConnection)
+            if (valConnection)
                 valConnection.remove();
             nodeComp.inputs.get('ref')!.socket = Sockets.anyTypeSocket.refSocket;
             nodeComp.inputs.get('val')!.socket = Sockets.anyTypeSocket.valSocket;
