@@ -78,6 +78,7 @@ export class WaitComponent extends Rete.Component {
         }
         variable.reset();
         variable.set(variable.get());
+        taskHandler.trigger(node.id+"");
     }
 
 }
