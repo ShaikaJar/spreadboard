@@ -17,13 +17,13 @@ export class AddComponent extends Rete.Component {
         const inp2 = new Rete.Input('num2', i18n.de.addIn, Sockets.types.get("number")!.valSocket);
         const out = new Rete.Output('num', i18n.de.res, Sockets.types.get("number")!.valSocket);
 
-        inp1.addControl(new NumControl((event:string,val:number)=>editor.trigger(event), 'num', false))
-        inp2.addControl(new NumControl((event:string,val:number)=>editor.trigger(event), 'num2', false))
+        inp1.addControl(new NumControl((event:string,val:number)=>editor.trigger(event), 'num', false, i18n.de.addIn))
+        inp2.addControl(new NumControl((event:string,val:number)=>editor.trigger(event), 'num2', false, i18n.de.addIn))
 
         node
             .addInput(inp1)
             .addInput(inp2)
-            .addControl(new NumControl((event:string,val:number)=>{}, 'preview', true))
+            .addControl(new NumControl((event:string,val:number)=>{}, 'preview', true, i18n.de.res))
             .addOutput(out);
     }
 

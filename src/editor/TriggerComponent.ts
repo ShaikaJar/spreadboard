@@ -3,10 +3,10 @@ import * as Sockets from "@/editor/sockets";
 import {ButtonControl} from "@/editor/components/ButtonControl";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
-import {TaskComponent} from "@/editor/TaskComponent";
 import i18n from "@/i18n";
+import taskHandler from "@/editor/controlFlow/EventEmitter";
 
-export class TriggerComponent extends TaskComponent {
+export class TriggerComponent extends Rete.Component {
 
     constructor(){
         super(i18n.de.trigger);
@@ -14,16 +14,12 @@ export class TriggerComponent extends TaskComponent {
 
     async builder(node: RNode) {
         node.addControl(new ButtonControl(()=>{
-            this.run(node.id, "onClick")
+            taskHandler.trigger(node.id+'-onClick');
         }, "start"))
         node.addOutput(new Rete.Output('act', '', Sockets.actSocket))
     }
 
     worker(node: DNode, inputs:IOs, outputs:IOs): any {
-        super.worker(node,inputs,outputs);
-    }
-
-    async task(node: DNode, inputs: IOs, outputs: IOs, event: string) {
-        return outputs;
+        outputs['act']= node.id+"-onClick";
     }
 }

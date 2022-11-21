@@ -1,4 +1,5 @@
 <template>
+  <div class="control title">{{title?(title+':'):''}}</div>
   <input type="number"
          :readonly="readonly"
          :value="value"
@@ -12,7 +13,7 @@
 import {onMounted} from "vue";
 
 export default {
-  props: ['readonly', 'emitter', 'ikey', 'getData', 'putData'],
+  props: ['readonly', 'emitter', 'ikey', 'getData', 'putData', 'title'],
   name: "VueNumComponent",
   data() {
     return {
@@ -41,5 +42,7 @@ onMounted( () =>{
 </script>
 
 <style scoped>
-
+.title{
+  color: white;
+}
 </style>

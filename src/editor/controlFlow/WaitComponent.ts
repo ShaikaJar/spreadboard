@@ -5,11 +5,11 @@ import {IOs} from "rete/types/engine/component";
 import {NumControl} from "@/editor/components/NumControl";
 import i18n from "@/i18n";
 import {Variable} from "@/editor/variables/Variable";
-import {TaskComponent} from "@/editor/TaskComponent";
 import * as Sockets from "@/editor/sockets";
 import {editor} from "@/editor";
+import taskHandler from "@/editor/controlFlow/EventEmitter";
 
-export class WaitComponent extends TaskComponent {
+export class WaitComponent extends Rete.Component {
 
     constructor() {
         super(i18n.de.wait);
@@ -41,21 +41,23 @@ export class WaitComponent extends TaskComponent {
     }
 
     worker(node: DNode, inputs:IOs, outputs:IOs): any {
-        super.worker(node,inputs,outputs);
+
+        taskHandler.removeListener(node.id);
 
         const nodeComp = editor.nodes.find((n:RNode) => n.id == node.id)!;
         const variable = this.variables.get(node.id)!;
 
         const initVal = inputs['val'].length ? inputs['val'][0] : node.data.val;
-
+        outputs['act'] = node.id+"";
         variable.setInitial(initVal);
+        taskHandler.on([inputs['act'][0]!],node.id,(event:string,...args:any)=>{this.task(node,inputs)})
     }
 
     private delay(ms:number){
         return new Promise(resolve => setTimeout(resolve,ms));
     }
 
-    async task(node: DNode, inputs: IOs, outputs: IOs, event: string) {
+    async task(node: DNode, inputs: IOs) {
 
         console.log("Try Waiting")
         const variable = this.variables.get(node.id)!;
@@ -76,7 +78,6 @@ export class WaitComponent extends TaskComponent {
         }
         variable.reset();
         variable.set(variable.get());
-        return {node, inputs, outputs};
     }
 
 }

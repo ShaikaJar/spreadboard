@@ -16,10 +16,12 @@ export class NumVarComponent extends Rete.Component {
         this.variables = new Map<number, Variable<number>>();
     }
 
-    async builder(node:RNode) {
-        const preview = new NumControl((event:string,val:number)=>{editor.trigger(event);}, 'curVal', true);
+    async builder(node: RNode) {
+        const preview = new NumControl((event: string, val: number) => {
+            editor.trigger(event);
+        }, 'curVal', true, i18n.de.curVal);
 
-        const variable = new Variable<number>( (val:number) => {
+        const variable = new Variable<number>((val: number) => {
             console.log("Value Changed");
             preview.setValue(val);
             node.update();
@@ -27,9 +29,9 @@ export class NumVarComponent extends Rete.Component {
         });
 
         const inp = new Rete.Input('init', i18n.de.initVal, Sockets.types.get("number")!.valSocket);
-        inp.addControl(new NumControl((event:string,val:number)=> {
+        inp.addControl(new NumControl((event: string, val: number) => {
             variable.setInitial(val);
-        }, 'init'));
+        }, 'init', false, i18n.de.val));
 
         this.variables.set(node.id, variable);
 
@@ -45,13 +47,13 @@ export class NumVarComponent extends Rete.Component {
             .addOutput(outVal);
     }
 
-    setPreview(node: RNode, value: number){
+    setPreview(node: RNode, value: number) {
         const preview = <NumControl>node.controls.get('curVal');
-        if(preview)
+        if (preview)
             preview.setValue(value);
     }
 
-    worker(node: DNode, inputs:IOs, outputs:IOs) {
+    worker(node: DNode, inputs: IOs, outputs: IOs) {
         const initVal = inputs['init'].length ? inputs['init'][0] : node.data.init;
 
         const variable = this.variables.get(node.id)!;

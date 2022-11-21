@@ -4,10 +4,10 @@ import * as Sockets from "@/editor/sockets";
 import {Variable} from "./Variable";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
-import {TaskComponent} from "@/editor/TaskComponent";
 import i18n from "@/i18n";
+import taskHandler from "@/editor/controlFlow/EventEmitter";
 
-export class SetVarComponent extends TaskComponent {
+export class SetVarComponent extends Rete.Component {
 
     types: Map<number, string>;
 
@@ -33,7 +33,8 @@ export class SetVarComponent extends TaskComponent {
     }
 
     worker(node: DNode, inputs: IOs, outputs: IOs): any {
-        super.worker(node, inputs, outputs);
+
+        taskHandler.removeListener(node.id);
 
         // @ts-ignore
         const nodeComp: RNode = this.editor!.nodes!.find(n => n.id == node.id);
@@ -52,24 +53,18 @@ export class SetVarComponent extends TaskComponent {
             nodeComp.inputs.get('val')!.socket = Sockets.types.getValByRef(refConnection.output.socket);
         } else if (valConnection && valConnection.output.socket) {
             nodeComp.inputs.get('ref')!.socket = Sockets.types.getRefByVal(valConnection.output.socket);
-        } else {
-            if (refConnection)
-                refConnection.remove();
-            if (valConnection)
-                valConnection.remove();
-            nodeComp.inputs.get('ref')!.socket = Sockets.anyTypeSocket.refSocket;
-            nodeComp.inputs.get('val')!.socket = Sockets.anyTypeSocket.valSocket;
         }
 
+        outputs['act'] = node.id+"";
+        taskHandler.on([inputs['act'][0]!], node.id, (event:string, ...arsg:any)=>{this.task(node,inputs)});
     }
 
-    async task(node: DNode, inputs: IOs, outputs: IOs, event: any) {
+    async task(node: DNode, inputs: IOs) {
         const ref = inputs['ref'][0];
         const val = inputs['val'][0];
-        if (ref && val) {
+        if (ref && val!=null) {
             ref.set(val);
         }
-        return outputs;
     }
 }
 
