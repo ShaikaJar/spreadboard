@@ -13,21 +13,21 @@ export default {
 
 <style lang="css">
 .dock {
+  overflow-x: scroll;
   flex: 1;
-  min-width: 200px;
   width: 100%;
+  min-height: 300px;
   order: 1;
   border-top: 1px solid green;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-flow: row nowrap;
-
-
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .dock >.dock-item > .node{
-  width: 150px;
+  width: 200px;
   min-width: 20px;
   margin-right: 15px;
 }

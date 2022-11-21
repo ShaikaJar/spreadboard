@@ -1,6 +1,5 @@
 <template>
   <div class="spreadBoard">
-
     <div class="editor">
       <ReteEditor />
       <ReteDock />
@@ -29,6 +28,10 @@ export default class App extends Vue {}
 </script>
 
 <style>
+body{
+
+  background: #2c3e50;
+}
 .spreadBoard{
   display: flex;
   flex-flow: row;

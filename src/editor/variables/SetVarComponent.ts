@@ -26,7 +26,6 @@ export class SetVarComponent extends TaskComponent {
 
 
         return node
-            .addControl(new NumControl(this.editor, 'preview', false))
             .addInput(inRef)
             .addInput(inVal)
             .addInput(inpAct)

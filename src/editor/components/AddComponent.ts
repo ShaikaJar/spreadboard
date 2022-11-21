@@ -5,6 +5,7 @@ import * as Sockets from "@/editor/sockets";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import i18n from "@/i18n";
+import {editor} from "@/editor";
 
 export class AddComponent extends Rete.Component {
     constructor(){
@@ -16,13 +17,13 @@ export class AddComponent extends Rete.Component {
         const inp2 = new Rete.Input('num2', i18n.de.addIn, Sockets.types.get("number")!.valSocket);
         const out = new Rete.Output('num', i18n.de.res, Sockets.types.get("number")!.valSocket);
 
-        inp1.addControl(new NumControl(this.editor, 'num', false))
-        inp2.addControl(new NumControl(this.editor, 'num2', false))
+        inp1.addControl(new NumControl((event:string,val:number)=>editor.trigger(event), 'num', false))
+        inp2.addControl(new NumControl((event:string,val:number)=>editor.trigger(event), 'num2', false))
 
         node
             .addInput(inp1)
             .addInput(inp2)
-            .addControl(new NumControl(this.editor, 'preview', true))
+            .addControl(new NumControl((event:string,val:number)=>{}, 'preview', true))
             .addOutput(out);
     }
 
@@ -32,7 +33,7 @@ export class AddComponent extends Rete.Component {
         const sum: number = n1 + n2;
 
         //@ts-ignore
-        const preview = this.editor!.nodes!.find(n => n.id == node.id)!.controls.get('preview')!;
+        const preview = editor!.nodes!.find(n => n.id == node.id)!.controls.get('preview')!;
         // @ts-ignore
         preview.setValue(sum);
         outputs['num'] = sum;

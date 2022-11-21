@@ -5,6 +5,7 @@ import {IOs} from "rete/types/engine/component";
 import {NumControl} from "@/editor/components/NumControl";
 import * as Sockets from "@/editor/sockets";
 import i18n from "@/i18n";
+import {editor} from "@/editor";
 
 export class NumComponent extends Rete.Component {
 
@@ -15,7 +16,7 @@ export class NumComponent extends Rete.Component {
     async builder(node: RNode) {
         const out1 = new Rete.Output('num', i18n.de.num, Sockets.types.get("number")!.valSocket);
 
-        return node.addControl(new NumControl(this.editor, 'num', false)).addOutput(out1);
+        return node.addControl(new NumControl((event:string,val:number)=>editor.trigger(event), 'num', false)).addOutput(out1);
     }
 
     worker(node: DNode, inputs: IOs, outputs: IOs) {

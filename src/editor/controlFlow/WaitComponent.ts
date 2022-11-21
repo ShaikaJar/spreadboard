@@ -7,6 +7,7 @@ import i18n from "@/i18n";
 import {Variable} from "@/editor/variables/Variable";
 import {TaskComponent} from "@/editor/TaskComponent";
 import * as Sockets from "@/editor/sockets";
+import {editor} from "@/editor";
 
 export class WaitComponent extends TaskComponent {
 
@@ -18,18 +19,17 @@ export class WaitComponent extends TaskComponent {
 
     async builder(node: RNode) {
 
-        const preview: NumControl = new NumControl(this.editor, 'preview', true);
+        const preview: NumControl = new NumControl((event:string,val:number)=>{}, 'preview', true);
 
         const inTime = new Rete.Input('val', i18n.de.initTime, Sockets.types.get("number")!.valSocket);
 
 
         const variable = new Variable<number>( (val:number) => {
             preview.setValue(Math.round(val));
-            node.update();
-            this.editor.trigger("process");
+            editor.trigger("process");
         });
 
-        inTime.addControl(new NumControl(()=>{}, 'val', false));
+        inTime.addControl(new NumControl((event:String,val:number)=>variable.setInitial(val), 'val', false));
 
         this.variables.set(node.id,variable);
 
@@ -43,7 +43,7 @@ export class WaitComponent extends TaskComponent {
     worker(node: DNode, inputs:IOs, outputs:IOs): any {
         super.worker(node,inputs,outputs);
 
-        const nodeComp = this.editor.nodes.find((n:RNode) => n.id == node.id)!;
+        const nodeComp = editor.nodes.find((n:RNode) => n.id == node.id)!;
         const variable = this.variables.get(node.id)!;
 
         const initVal = inputs['val'].length ? inputs['val'][0] : node.data.val;

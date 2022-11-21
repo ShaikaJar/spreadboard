@@ -7,7 +7,7 @@ export class NumControl extends Rete.Control {
     private component: any;
     private props: Object;
 
-    constructor(emitter: CallableFunction, key:string, readonly:boolean = false) {
+    constructor(emitter: Function, key:string, readonly:boolean = false) {
         super(key);
         this.component = VueNumControl;
         this.props = { emitter, ikey: key, readonly };

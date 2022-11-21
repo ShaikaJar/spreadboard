@@ -17,8 +17,11 @@ import {NumVarComponent} from "@/editor/variables/NumVarComponent";
 import {TriggerComponent} from "@/editor/TriggerComponent";
 import {SetVarComponent} from "@/editor/variables/SetVarComponent";
 
+
+let editor: any = null;
+
 async function init (container: HTMLElement) {
-    const editor = new Rete.NodeEditor("demo@0.1.0", container);
+    editor = new Rete.NodeEditor("demo@0.1.0", container);
     const engine = new Rete.Engine('demo@0.1.0');
     editor.use(ConnectionPlugin);
     editor.use(VueRenderPlugin);
@@ -80,7 +83,7 @@ async function init (container: HTMLElement) {
 
     editor.on(
         ["connectioncreate", "connectionremove", "nodecreate", "noderemove"],
-        (data) => {
+        (data: any) => {
             console.log("editor something", data);
             console.log("editor", editor.toJSON());
             editor.trigger("process");
@@ -88,6 +91,7 @@ async function init (container: HTMLElement) {
     );
 
     editor.on('process', async () => {
+        console.log("Starting Process");
         await engine.abort();
         await engine.process(editor.toJSON());
     });
@@ -95,4 +99,4 @@ async function init (container: HTMLElement) {
     editor.view.resize();
 }
 
-export {init};
+export {init, editor};

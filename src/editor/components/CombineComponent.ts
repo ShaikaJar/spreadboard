@@ -5,6 +5,7 @@ import {TextControl} from "@/editor/components/TextControl";
 import {IOs} from "rete/types/engine/component";
 import {Node as DNode} from "rete/types/core/data";
 import i18n from "@/i18n";
+import {editor} from "@/editor";
 
 export class CombineComponent extends Rete.Component {
     constructor(){
@@ -16,13 +17,13 @@ export class CombineComponent extends Rete.Component {
         const inp2 = new Rete.Input('txt2', i18n.de.txt, Sockets.types.get("text")!.valSocket);
         const out = new Rete.Output('txt', i18n.de.res, Sockets.types.get("text")!.valSocket);
 
-        inp1.addControl(new TextControl(this.editor, 'txt', false))
-        inp2.addControl(new TextControl(this.editor, 'txt2',false))
+        inp1.addControl(new TextControl(editor, 'txt', false))
+        inp2.addControl(new TextControl(editor, 'txt2',false))
 
         node
             .addInput(inp1)
             .addInput(inp2)
-            .addControl(new TextControl(this.editor, 'preview', true))
+            .addControl(new TextControl(editor, 'preview', true))
             .addOutput(out);
     }
 
@@ -36,7 +37,7 @@ export class CombineComponent extends Rete.Component {
         const sum = n1 + "" + n2;
 
         //@ts-ignore
-        this.editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(sum);
+        editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(sum);
         outputs['txt'] = sum;
         return null;
     }

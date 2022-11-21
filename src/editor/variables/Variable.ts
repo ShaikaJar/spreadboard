@@ -13,21 +13,31 @@ export class Variable<Type>{
     getEdited = ()=>this.edited;
 
     set(newVal:Type){
+        const oldVal = this.curValue;
         this.curValue = newVal;
-        this.edited=true;
-        this.onChange(newVal);
+        if(oldVal!= this.curValue) {
+            this.edited=true;
+            this.onChange(newVal);
+        }
     }
 
     setInitial(val:Type){
+        const oldVal = this.curValue;
         this.initVal=val;
-        if(!this.edited)
-            this.curValue=val;
-        //this.onChange(val);
+        if(!this.edited) {
+            this.curValue = val;
+            if(oldVal!=this.curValue){
+                this.onChange(val);
+            }
+        }
     }
 
     reset(){
+        const oldVal = this.curValue;
         this.curValue = this.initVal;
         this.edited = false;
+        if (this.curValue != oldVal)
+            this.onChange(this.curValue);
     }
 
     get = () => this.curValue;

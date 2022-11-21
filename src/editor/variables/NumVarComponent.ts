@@ -5,6 +5,7 @@ import {Variable} from "./Variable";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import i18n from "@/i18n";
+import {editor} from "@/editor";
 
 export class NumVarComponent extends Rete.Component {
 
@@ -16,22 +17,28 @@ export class NumVarComponent extends Rete.Component {
     }
 
     async builder(node:RNode) {
+        const preview = new NumControl((event:string,val:number)=>{editor.trigger(event);}, 'curVal', true);
 
-        const inp = new Rete.Input('val', i18n.de.initVal, Sockets.types.get("number")!.valSocket);
-        inp.addControl(new NumControl(this.editor, 'val'));
-
-        this.variables.set(node.id, new Variable<number>( (val:number) => {
+        const variable = new Variable<number>( (val:number) => {
+            console.log("Value Changed");
+            preview.setValue(val);
             node.update();
-            this.setPreview(node,val);
-            this.editor.trigger("process");
-        }));
+            editor.trigger('process');
+        });
+
+        const inp = new Rete.Input('init', i18n.de.initVal, Sockets.types.get("number")!.valSocket);
+        inp.addControl(new NumControl((event:string,val:number)=> {
+            variable.setInitial(val);
+        }, 'init'));
+
+        this.variables.set(node.id, variable);
 
         const outRef: Output = new Rete.Output('ref', i18n.de.ref, Sockets.types.get("number")!.refSocket);
         const outVal: Output = new Rete.Output('val', i18n.de.curVal, Sockets.types.get("number")!.valSocket);
         const outType = new Rete.Output('type', i18n.de.type, Sockets.typeSocket);
 
         return node
-            .addControl(new NumControl(this.editor, 'preview', true))
+            .addControl(preview)
             .addInput(inp)
             .addOutput(outType)
             .addOutput(outRef)
@@ -39,20 +46,21 @@ export class NumVarComponent extends Rete.Component {
     }
 
     setPreview(node: RNode, value: number){
-        const preview = node.controls.get('preview');
-        //@ts-ignore
-        preview.setValue(value);
+        const preview = <NumControl>node.controls.get('curVal');
+        if(preview)
+            preview.setValue(value);
     }
 
     worker(node: DNode, inputs:IOs, outputs:IOs) {
-
-        const initVal = inputs['val'].length ? inputs['val'][0] : node.data.val;
+        const initVal = inputs['init'].length ? inputs['init'][0] : node.data.init;
 
         const variable = this.variables.get(node.id)!;
 
         variable.setInitial(initVal);
         //@ts-ignore
-        this.setPreview(this.editor.nodes.find(n => n.id == node.id)!, variable.get());
+        const nodeComp = editor!.nodes!.find(n => n.id == node.id);
+
+        this.setPreview(nodeComp, variable.get());
 
         outputs["val"] = variable.get();
         outputs["ref"] = variable;

@@ -4,6 +4,7 @@ import {TextControl} from "@/editor/components/TextControl";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import i18n from "@/i18n";
+import {editor} from "@/editor";
 
 export class HeaderComponent extends Rete.Component {
     constructor(){
@@ -14,11 +15,11 @@ export class HeaderComponent extends Rete.Component {
         const inp1 = new Rete.Input('txt',i18n.de.txt, Sockets.types.get("text")!.valSocket);
         const out = new Rete.Output('h', i18n.de.header, Sockets.types.get("text")!.valSocket);
 
-        inp1.addControl(new TextControl(this.editor, 'txt', false));
+        inp1.addControl(new TextControl(editor, 'txt', false));
 
         return node
             .addInput(inp1)
-            .addControl(new TextControl(this.editor, 'preview', true))
+            .addControl(new TextControl(editor, 'preview', true))
             .addOutput(out);
     }
 
@@ -27,7 +28,7 @@ export class HeaderComponent extends Rete.Component {
         const h = "<h1>"+n1+"</h1>";
 
         // @ts-ignore
-        this.editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(h);
+        editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(h);
         outputs['h'] = h;
     }
 }
