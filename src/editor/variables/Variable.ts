@@ -10,6 +10,8 @@ export class Variable<Type>{
         this.onChange = onChange;
     }
 
+    getEdited = ()=>this.edited;
+
     set(newVal:Type){
         this.curValue = newVal;
         this.edited=true;

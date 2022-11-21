@@ -16,7 +16,10 @@ const de = {
     combine : 'Zusammenfügen',
     numVar: 'Variable:\nZahl',
     type: 'Datentyp',
-    view: 'Anzeige'
+    view: 'Anzeige',
+    wait: 'Warten',
+    curTime: 'Verbleibende Zeit',
+    initTime: 'Start-Zeit'
 };
 
 const i18n = {
