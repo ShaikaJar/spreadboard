@@ -3,7 +3,7 @@ class EventEmitter{
     private listeners: Map<string,Map<number,Function>> = new Map();
 
     constructor() {
-        this.listeners
+        this.listeners;
     }
 
 
@@ -25,8 +25,10 @@ class EventEmitter{
 
     public trigger(event:string, ...args:any){
         if(this.listeners.get(event))
-            for (const value of this.listeners.get(event)!.values()) {
-                value(event, args);
+            for (const listener of this.listeners.get(event)!.values()) {
+                new Promise(resolve => setTimeout(resolve, 0)).then(
+                    () => listener(event, args)
+                );
             }
     }
 

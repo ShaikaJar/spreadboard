@@ -45,4 +45,7 @@ onMounted( () =>{
 .title{
   color: white;
 }
+input{
+  max-width: 6vw;
+}
 </style>

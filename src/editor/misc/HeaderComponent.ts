@@ -1,10 +1,11 @@
 import Rete, {Node as RNode} from "rete";
 import * as Sockets from "@/editor/sockets";
-import {TextControl} from "@/editor/components/TextControl";
+import {TextControl} from "@/editor/controls/TextControl";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import i18n from "@/i18n";
 import {editor} from "@/editor";
+import {SocketTypes} from "@/editor/sockets";
 
 export class HeaderComponent extends Rete.Component {
     constructor(){
@@ -12,8 +13,8 @@ export class HeaderComponent extends Rete.Component {
     }
 
     async builder(node: RNode) {
-        const inp1 = new Rete.Input('txt',i18n.de.txt, Sockets.types.get("text")!.valSocket);
-        const out = new Rete.Output('h', i18n.de.header, Sockets.types.get("text")!.valSocket);
+        const inp1 = new Rete.Input('txt',i18n.de.txt, SocketTypes.textSocket().valSocket);
+        const out = new Rete.Output('h', i18n.de.header, SocketTypes.textSocket().valSocket);
 
         inp1.addControl(new TextControl(editor, 'txt', false));
 

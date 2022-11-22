@@ -1,11 +1,11 @@
 import Rete, {Connection, Input, Node as RNode, Output} from "rete";
-import {NumControl} from "@/editor/components/NumControl";
-import * as Sockets from "@/editor/sockets";
+import {NumControl} from "@/editor/controls/NumControl";
 import {Variable} from "./Variable";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import i18n from "@/i18n";
 import taskHandler from "@/editor/controlFlow/EventEmitter";
+import {SocketTypes} from "@/editor/sockets";
 
 export class SetVarComponent extends Rete.Component {
 
@@ -17,12 +17,12 @@ export class SetVarComponent extends Rete.Component {
     }
 
     async builder(node: RNode) {
-        const inRef = new Rete.Input('ref', i18n.de.ref, Sockets.anyTypeSocket.refSocket);
-        const inVal = new Rete.Input('val', i18n.de.val, Sockets.anyTypeSocket.valSocket);
+        const inRef = new Rete.Input('ref', i18n.de.ref, SocketTypes.anyTypeSocket.refSocket);
+        const inVal = new Rete.Input('val', i18n.de.val, SocketTypes.anyTypeSocket.valSocket);
 
 
-        const inpAct = new Rete.Input('act', i18n.de.act, Sockets.actSocket);
-        const outAct = new Rete.Output('act', i18n.de.act, Sockets.actSocket);
+        const inpAct = new Rete.Input('act', i18n.de.act, SocketTypes.actSocket());
+        const outAct = new Rete.Output('act', i18n.de.act, SocketTypes.actSocket());
 
 
         return node
@@ -47,12 +47,12 @@ export class SetVarComponent extends Rete.Component {
 
         if (refConnection && refConnection.output.socket &&
             valConnection && valConnection.output.socket &&
-            valConnection.output.socket != Sockets.types.getValByRef(refConnection.output.socket)) {
+            valConnection.output.socket != SocketTypes.getValByRef(refConnection.output.socket)) {
             valConnection.remove();
         } else if (refConnection && refConnection.output.socket) {
-            nodeComp.inputs.get('val')!.socket = Sockets.types.getValByRef(refConnection.output.socket);
+            nodeComp.inputs.get('val')!.socket = SocketTypes.getValByRef(refConnection.output.socket);
         } else if (valConnection && valConnection.output.socket) {
-            nodeComp.inputs.get('ref')!.socket = Sockets.types.getRefByVal(valConnection.output.socket);
+            nodeComp.inputs.get('ref')!.socket = SocketTypes.getRefByVal(valConnection.output.socket);
         }
 
         outputs['act'] = node.id+"";

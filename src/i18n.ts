@@ -11,7 +11,7 @@ const de = {
     curVal: 'Aktueller Wert',
     initVal: 'Startwert',
     setVar: 'Setze Variable',
-    trigger: "Auslöser",
+    button: "Drücker",
     header: 'Überschrift',
     combine : 'Zusammenfügen',
     numVar: 'Variable:\nZahl',
@@ -19,7 +19,13 @@ const de = {
     view: 'Anzeige',
     wait: 'Warten',
     curTime: 'Verbleibende Zeit',
-    initTime: 'Start-Zeit'
+    initTime: 'Start-Zeit',
+    trigger: 'Auslöser',
+    event: 'Ereigniss',
+    bool: 'Wahrheitswert',
+    condition: 'Bedingung',
+    if: 'Falls',
+    else: 'Sonst'
 };
 
 const i18n = {

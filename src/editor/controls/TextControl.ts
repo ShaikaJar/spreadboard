@@ -1,6 +1,6 @@
 import Rete from "rete";
 //@ts-ignore
-import VueTextControl from "@/components/VueTextControl";
+import VueTextControl from "@/components/VueTextControl.vue";
 import i18n from "@/i18n";
 
 

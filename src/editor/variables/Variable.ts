@@ -41,5 +41,6 @@ export class Variable<Type>{
     }
 
     get = () => this.curValue;
+    getInitial = () => this.initVal;
 
 }

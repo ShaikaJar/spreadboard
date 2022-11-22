@@ -21,15 +21,18 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style>
 .rete {
   flex: 3;
   order: 2;
   border-left: 1px solid green;
   border-top: 1px solid green;
 }
-.socket.act{
+.socket[title~="act"]{
   background: coral;
+}
+.socket[title~="act"][title~="ref"]{
+  background: chocolate;
 }
 .socket[title~="ref"]{
   background: darkmagenta;

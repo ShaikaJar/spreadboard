@@ -1,11 +1,12 @@
 import Rete, {Node as RNode} from "rete";
-import {NumControl} from "@/editor/components/NumControl";
+import {NumControl} from "@/editor/controls/NumControl";
 
 import * as Sockets from "@/editor/sockets";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import i18n from "@/i18n";
 import {editor} from "@/editor";
+import {SocketTypes} from "@/editor/sockets";
 
 export class AddComponent extends Rete.Component {
     constructor(){
@@ -13,9 +14,9 @@ export class AddComponent extends Rete.Component {
     }
 
     async builder(node: RNode): Promise<void> {
-        const inp1 = new Rete.Input('num',i18n.de.addIn, Sockets.types.get("number")!.valSocket);
-        const inp2 = new Rete.Input('num2', i18n.de.addIn, Sockets.types.get("number")!.valSocket);
-        const out = new Rete.Output('num', i18n.de.res, Sockets.types.get("number")!.valSocket);
+        const inp1 = new Rete.Input('num',i18n.de.addIn, SocketTypes.numSocket().valSocket);
+        const inp2 = new Rete.Input('num2', i18n.de.addIn, SocketTypes.numSocket().valSocket);
+        const out = new Rete.Output('num', i18n.de.res, SocketTypes.numSocket().valSocket);
 
         inp1.addControl(new NumControl((event:string,val:number)=>editor.trigger(event), 'num', false, i18n.de.addIn))
         inp2.addControl(new NumControl((event:string,val:number)=>editor.trigger(event), 'num2', false, i18n.de.addIn))

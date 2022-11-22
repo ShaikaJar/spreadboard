@@ -1,11 +1,12 @@
 import Rete, {Node as RNode} from "rete";
 
 import * as Sockets from "@/editor/sockets";
-import {TextControl} from "@/editor/components/TextControl";
+import {TextControl} from "@/editor/controls/TextControl";
 import {IOs} from "rete/types/engine/component";
 import {Node as DNode} from "rete/types/core/data";
 import i18n from "@/i18n";
 import {editor} from "@/editor";
+import {SocketTypes} from "@/editor/sockets";
 
 export class CombineComponent extends Rete.Component {
     constructor(){
@@ -13,9 +14,9 @@ export class CombineComponent extends Rete.Component {
     }
 
     async builder(node: RNode) {
-        const inp1 = new Rete.Input('txt',i18n.de.txt, Sockets.types.get("text")!.valSocket);
-        const inp2 = new Rete.Input('txt2', i18n.de.txt, Sockets.types.get("text")!.valSocket);
-        const out = new Rete.Output('txt', i18n.de.res, Sockets.types.get("text")!.valSocket);
+        const inp1 = new Rete.Input('txt',i18n.de.txt, SocketTypes.numSocket().valSocket);
+        const inp2 = new Rete.Input('txt2', i18n.de.txt, SocketTypes.numSocket().valSocket);
+        const out = new Rete.Output('txt', i18n.de.res, SocketTypes.numSocket().valSocket);
 
         inp1.addControl(new TextControl(editor, 'txt', false))
         inp2.addControl(new TextControl(editor, 'txt2',false))

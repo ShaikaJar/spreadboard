@@ -1,6 +1,6 @@
 import Rete from "rete";
 //@ts-ignore
-import VueNumControl from "@/components/VueButtonControl";
+import VueNumControl from "@/components/VueButtonControl.vue";
 import VueButtonControl from "@/components/VueButtonControl.vue";
 
 

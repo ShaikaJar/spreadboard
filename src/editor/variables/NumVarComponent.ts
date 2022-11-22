@@ -1,11 +1,11 @@
 import Rete, {Node as RNode, Output} from "rete";
-import {NumControl} from "@/editor/components/NumControl";
-import * as Sockets from "@/editor/sockets";
+import {NumControl} from "@/editor/controls/NumControl";
 import {Variable} from "./Variable";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import i18n from "@/i18n";
 import {editor} from "@/editor";
+import {SocketTypes} from "@/editor/sockets";
 
 export class NumVarComponent extends Rete.Component {
 
@@ -28,16 +28,16 @@ export class NumVarComponent extends Rete.Component {
             editor.trigger('process');
         });
 
-        const inp = new Rete.Input('init', i18n.de.initVal, Sockets.types.get("number")!.valSocket);
+        const inp = new Rete.Input('init', i18n.de.initVal, SocketTypes.numSocket().valSocket);
         inp.addControl(new NumControl((event: string, val: number) => {
             variable.setInitial(val);
         }, 'init', false, i18n.de.val));
 
         this.variables.set(node.id, variable);
 
-        const outRef: Output = new Rete.Output('ref', i18n.de.ref, Sockets.types.get("number")!.refSocket);
-        const outVal: Output = new Rete.Output('val', i18n.de.curVal, Sockets.types.get("number")!.valSocket);
-        const outType = new Rete.Output('type', i18n.de.type, Sockets.typeSocket);
+        const outRef: Output = new Rete.Output('ref', i18n.de.ref, SocketTypes.numSocket().refSocket);
+        const outVal: Output = new Rete.Output('val', i18n.de.curVal, SocketTypes.numSocket().valSocket);
+        const outType = new Rete.Output('type', i18n.de.type, SocketTypes.typeSocket);
 
         return node
             .addControl(preview)
@@ -60,7 +60,7 @@ export class NumVarComponent extends Rete.Component {
 
         variable.setInitial(initVal);
         //@ts-ignore
-        const nodeComp = editor!.nodes!.find(n => n.id == node.id);
+        const nodeComp = editor!.nodes!.find(n => n.id == node.id)!;
 
         this.setPreview(nodeComp, variable.get());
 

@@ -4,10 +4,13 @@
       <ReteEditor />
       <ReteDock />
     </div>
+
     <div class="output-view-container">
       <div class="output-view">
         Test
       </div>
+
+      <button @click="triggDownload()">Download</button>
     </div>
   </div>
 </template>
@@ -17,14 +20,21 @@ import 'regenerator-runtime/runtime'
 import { Options, Vue } from 'vue-class-component';
 import ReteEditor from './components/ReteEditor.vue';
 import ReteDock from './components/ReteDock.vue';
+import {download} from "@/editor";
 
 @Options({
   components: {
     ReteEditor,
     ReteDock,
   },
+  methods:{
+    triggDownload(){
+      download();
+    }
+  }
 })
 export default class App extends Vue {}
+
 </script>
 
 <style>
@@ -67,15 +77,17 @@ select, input {
   width: 170px;
 }
 .output-view-container{
+  flex: 1;
+  order: 2;
+  padding: 5px;
+  max-width: 50vh;
+}
+.output-view{
+  padding: 5px;
   max-width: 50vh;
   height: 80vh;
   border-radius: 5px;
   border: 3px solid black;
-  flex: 1;
-  order: 2;
   margin: 5px;
-}
-.output-view{
-  padding: 5px;
 }
 </style>
