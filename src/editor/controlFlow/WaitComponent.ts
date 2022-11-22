@@ -3,7 +3,7 @@ import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import {NumControl} from "@/editor/controls/NumControl";
 import i18n from "@/i18n";
-import {Variable} from "@/editor/variables/Variable";
+import {Variable, Variables} from "@/editor/variables/Variable";
 import * as Sockets from "@/editor/sockets";
 import {editor} from "@/editor";
 import taskHandler from "@/editor/controlFlow/EventEmitter";
@@ -12,14 +12,18 @@ import {LoadingControl} from "@/editor/controls/LoadingControl";
 
 export class WaitComponent extends Rete.Component {
 
+
+    private declare varKey:string;
+
     constructor() {
         super(i18n.de.wait);
+        this.varKey = this.name+Math.random();
+        Variables.set(this.varKey, new Map<number, Variable<number>>);
     }
 
-    variables: Map<number, Variable<number>> = new Map<number, Variable<number>>();
+    variables = () => <Map<number, Variable<number>>>Variables.get(this.varKey)!;
 
     async builder(node: RNode) {
-
         const preview: LoadingControl = new LoadingControl((event: string, val: number) => {
         }, 'preview', true);
 
@@ -40,7 +44,7 @@ export class WaitComponent extends Rete.Component {
 
         inTime.addControl(inControll);
 
-        this.variables.set(node.id, variable);
+        this.variables().set(node.id, variable);
 
         return node
             .addInput(inTime)
@@ -49,15 +53,19 @@ export class WaitComponent extends Rete.Component {
             .addInput(new Rete.Input('act', '', SocketTypes.actSocket()));
     }
 
+    getActOut(nodeId:number){
+        return this.varKey+':'+nodeId;
+    }
+
     worker(node: DNode, inputs: IOs, outputs: IOs): any {
 
         taskHandler.removeListener(node.id);
 
         const nodeComp = editor.nodes.find((n: RNode) => n.id == node.id)!;
-        const variable = this.variables.get(node.id)!;
+        const variable = this.variables().get(node.id)!;
 
         const initVal = inputs['val'].length ? inputs['val'][0] : node.data.val;
-        outputs['act'] = node.id + "";
+        outputs['act'] = this.getActOut(node.id);
         variable.setInitial(initVal);
         taskHandler.on([inputs['act'][0]!], node.id, (event: string, ...args: any) => {
             this.task(node, inputs)
@@ -71,7 +79,7 @@ export class WaitComponent extends Rete.Component {
     async task(node: DNode, inputs: IOs) {
 
         //console.log("Try Waiting")
-        const variable = this.variables.get(node.id)!;
+        const variable = this.variables().get(node.id)!;
 
         if (variable.getEdited()) {
             variable.reset();
@@ -90,7 +98,7 @@ export class WaitComponent extends Rete.Component {
         }
         variable.reset();
         variable.set(variable.get());
-        taskHandler.trigger(node.id + "");
+        taskHandler.trigger(this.getActOut(node.id));
     }
 
 }

@@ -4,14 +4,14 @@
 
 <script lang="js">
 import { ref, onMounted } from "vue";
-import {init} from "@/editor";
+import {start} from "@/editor";
 export default {
   name: "ReteEditor",
   setup() {
     const reteElm = ref(null);
 
     onMounted(() => {
-      init(reteElm.value);
+      start(reteElm.value);
     });
 
     return {

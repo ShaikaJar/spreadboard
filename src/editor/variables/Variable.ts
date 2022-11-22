@@ -44,3 +44,7 @@ export class Variable<Type>{
     getInitial = () => this.initVal;
 
 }
+
+const Variables: Map<string, Map<number, Variable<any>>> = new Map();
+
+export {Variables};

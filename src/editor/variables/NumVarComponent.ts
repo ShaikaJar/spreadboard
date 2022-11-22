@@ -1,6 +1,6 @@
 import Rete, {Node as RNode, Output} from "rete";
 import {NumControl} from "@/editor/controls/NumControl";
-import {Variable} from "./Variable";
+import {Variable, Variables} from "./Variable";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import i18n from "@/i18n";
@@ -9,11 +9,14 @@ import {SocketTypes} from "@/editor/sockets";
 
 export class NumVarComponent extends Rete.Component {
 
-    variables: Map<number, Variable<number>>;
+    private declare varKey:string;
+
+    variables = () => <Map<number,Variable<number>>>Variables.get(this.varKey)!;
 
     constructor() {
         super(i18n.de.numVar);
-        this.variables = new Map<number, Variable<number>>();
+        this.varKey = this.name+Math.random();
+        Variables.set(this.varKey, new Map<number,Variable<number>>);
     }
 
     async builder(node: RNode) {
@@ -33,7 +36,7 @@ export class NumVarComponent extends Rete.Component {
             variable.setInitial(val);
         }, 'init', false, i18n.de.val));
 
-        this.variables.set(node.id, variable);
+        this.variables().set(node.id, variable);
 
         const outRef: Output = new Rete.Output('ref', i18n.de.ref, SocketTypes.numSocket().refSocket);
         const outVal: Output = new Rete.Output('val', i18n.de.curVal, SocketTypes.numSocket().valSocket);
@@ -56,7 +59,7 @@ export class NumVarComponent extends Rete.Component {
     worker(node: DNode, inputs: IOs, outputs: IOs) {
         const initVal = inputs['init'].length ? inputs['init'][0] : node.data.init;
 
-        const variable = this.variables.get(node.id)!;
+        const variable = this.variables().get(node.id)!;
 
         variable.setInitial(initVal);
         //@ts-ignore
