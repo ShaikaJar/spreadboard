@@ -18,7 +18,7 @@ export default {
   width: 100%;
   min-height: 300px;
   order: 1;
-  border-top: 1px solid green;
+  border-top: 1px solid #6f9aea;
   display: flex;
   align-items: center;
   flex-flow: row nowrap;
@@ -27,6 +27,7 @@ export default {
 }
 
 .dock >.dock-item > .node{
+  min-height: 10vh;
   width: 200px;
   min-width: 20px;
   margin-right: 15px;

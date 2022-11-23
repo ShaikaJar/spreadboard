@@ -63,28 +63,28 @@ onMounted( () =>{
 
 .switch {
   border: 1px solid #8cb6ff;
-  width: 8vh;
-  height: 4vh;
+  width: 3vw;
+  height: 1vw;
   display: flex;
   background: white;
-  border-radius: 3vw;
+  border-radius: .5vw;
   align-items: center;
 }
 
 .box{
   position: absolute;
   z-index: 5;
-  border-radius: 5vh;
+  border-radius: 1vw;
   background: #5188ea;
   border: 2px solid #8cb6ff;
-  height: 4.5vh;
-  width: 4.5vh;
-  translate: -0.5vh;
+  height: 1.7vw;
+  width: 1.7vw;
+  translate: -0.5vw;
   transition: translate 0.1s linear;
 }
 
 .box.checked{
-  translate: 4vh;
+  translate: 2vw;
   transition: translate 0.1s linear;
 }
 
@@ -92,18 +92,18 @@ onMounted( () =>{
   position: absolute;
   border-bottom-left-radius: 4vh;
   border-top-left-radius: 4vh;
-  height: 4vh;
+  height: 1vw;
   overflow: hidden;
 }
 
 .background{
   background: #6f9aea;
   width: 0;
-  height: 5vh;
+  height: 2vw;
   transition: width 0.1s linear;
 }
 .background.checked{
-  width: 7vh;
+  width: 3vw;
   transition: width 0.1s linear;
 }
 

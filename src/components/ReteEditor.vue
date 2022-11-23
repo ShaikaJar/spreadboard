@@ -22,11 +22,10 @@ export default {
 </script>
 
 <style>
+
 .rete {
-  flex: 3;
-  order: 2;
-  border-left: 1px solid green;
-  border-top: 1px solid green;
+  border-left: 1px solid #6f9aea;
+  border-top: 1px solid #6f9aea;
 }
 .socket[title~="act"]{
   background: coral;
