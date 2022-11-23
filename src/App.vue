@@ -2,12 +2,13 @@
   <div class="spreadboard">
     <div class="editor-container" :style="'height:'+($vssHeight*0.60)+'px'">
       <div class="editor-box" :style="'width:'+($vssWidth*0.75)+'px;'+'height:'+($vssHeight*0.60)+'px'">
-        <ReteEditor />
+        <ReteEditor/>
       </div>
-      <div class="output-view-container" :style="'width:'+($vssWidth*0.28)+'px'">
+      <div class="output-view-container" :style="'width:'+($vssWidth*0.28)+'px; height:100%'">
         <div class="button-row">
+          <div class="popup off"></div>
           <button @click="triggClear()">Leeren</button>
-          <button @click="triggDownload($event)">Speichern <div class="popup off">In Zwischenablage gespeichert</div> </button>
+          <button @click="triggDownload($event)">Speichern</button>
           <button @click="triggImport()">Laden</button>
           <button @click="triggLoadExample()">Lade Beispiel</button>
         </div>
@@ -24,7 +25,7 @@
 
 <script lang="js">
 import 'regenerator-runtime/runtime'
-import { Options, Vue } from 'vue-class-component';
+import {Options, Vue} from 'vue-class-component';
 import ReteEditor from './components/ReteEditor.vue';
 import ReteDock from './components/ReteDock.vue';
 import {clearBoard, loadExample, saveBoard, importBoard} from "@/editor";
@@ -36,9 +37,10 @@ import {VueScreenSizeMixin} from "vue-screen-size";
     ReteEditor,
     ReteDock,
   },
-  methods:{
-    triggDownload(){
+  methods: {
+    triggDownload() {
       const popup = document.querySelector('.popup');
+      popup.innerHTML = "In Zwischenablage gespeichert";
       popup.classList.replace("off", "on");
       saveBoard();
       new Promise(resolve => setTimeout(resolve, 1000)).then(
@@ -47,25 +49,49 @@ import {VueScreenSizeMixin} from "vue-screen-size";
           }
       );
     },
-    triggLoadExample(){
+    triggLoadExample() {
       loadExample();
+      const popup = document.querySelector('.popup');
+      popup.innerHTML = "Beispiel geladen";
+      popup.classList.replace("off", "on");
+      new Promise(resolve => setTimeout(resolve, 1000)).then(
+          () => {
+            popup.classList.replace("on", "off");
+          }
+      );
     },
-    triggClear(){
-
+    triggClear() {
       clearBoard();
+      const popup = document.querySelector('.popup');
+      popup.innerHTML = "SpreadBoard geleert";
+      popup.classList.replace("off", "on");
+      new Promise(resolve => setTimeout(resolve, 1000)).then(
+          () => {
+            popup.classList.replace("on", "off");
+          }
+      );
     },
-    triggImport(){
+    triggImport() {
       importBoard();
+      const popup = document.querySelector('.popup');
+      popup.innerHTML = "Import geladen";
+      popup.classList.replace("off", "on");
+      new Promise(resolve => setTimeout(resolve, 1000)).then(
+          () => {
+            popup.classList.replace("on", "off");
+          }
+      );
     }
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+}
 
 </script>
 
 <style>
 
-.popup{
+.popup {
   background: white;
   color: black;
   border-radius: 5px;
@@ -78,14 +104,14 @@ export default class App extends Vue {}
   transition: opacity ease-in-out 0.5s, z-index step-end 0.6s;
 }
 
-.popup.on{
+.popup.on {
   opacity: 100%;
   z-index: +4;
   transition: opacity ease-in-out 0.5s, z-index step-start 0s;
 }
 
 
-.button-row{
+.button-row {
   border-top: #6f9aea solid .1vw;
   display: flex;
   flex-flow: row;
@@ -94,7 +120,7 @@ export default class App extends Vue {}
   align-items: start;
 }
 
-.button-row > button{
+.button-row > button {
   display: block;
   border-radius: 0 0 .5vw .5vw;
   margin-top: 0;
@@ -108,11 +134,11 @@ export default class App extends Vue {}
   color: white;
 }
 
-.button-row > button:hover{
+.button-row > button:hover {
   height: 2.1vw;
 }
 
-body{
+body {
   padding-top: 0;
   margin-top: 0;
   padding-bottom: 0;
@@ -120,7 +146,7 @@ body{
   background: #2c3e50;
 }
 
-.spreadboard{
+.spreadboard {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -146,11 +172,14 @@ select, input {
   border: 1px solid #999;
   font-size: 110%;
 }
-.output-view-container{
+
+.output-view-container {
   align-items: center;
   justify-content: center;
+  border-left: #6f9aea solid 1px;
 }
-.output-view{
+
+.output-view {
   background: white;
   color: black;
   padding: 5px;
