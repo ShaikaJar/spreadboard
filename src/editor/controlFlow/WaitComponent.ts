@@ -1,16 +1,16 @@
-import Rete, {Node as RNode} from "rete";
+import Rete, {Component, Node as RNode} from "rete";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
-import {NumControl} from "@/editor/controls/NumControl";
-import i18n from "@/i18n";
-import {Variable, Variables} from "@/editor/variables/Variable";
-import * as Sockets from "@/editor/sockets";
-import {editor} from "@/editor";
-import taskHandler from "@/editor/controlFlow/EventEmitter";
-import {SocketTypes} from "@/editor/sockets";
-import {LoadingControl} from "@/editor/controls/LoadingControl";
+import {NumControl} from "../controls/NumControl";
+import i18n from "../i18n";
+import {Variable, Variables} from "../variables/Variable";
+import * as Sockets from "../sockets";
+import {editor} from "../index";
+import taskHandler from "../controlFlow/EventEmitter";
+import {SocketTypes} from "../sockets";
+import {LoadingControl} from "../controls/LoadingControl";
 
-export class WaitComponent extends Rete.Component {
+export class WaitComponent extends Component {
 
 
     private declare varKey:string;

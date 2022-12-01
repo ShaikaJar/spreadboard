@@ -1,13 +1,11 @@
-import Rete, {Connection, Input, Node as RNode, Output} from "rete";
-import {NumControl} from "@/editor/controls/NumControl";
-import {Variable} from "./Variable";
+import Rete, {Component, Connection, Input, Node as RNode, Output} from "rete";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
-import i18n from "@/i18n";
-import taskHandler from "@/editor/controlFlow/EventEmitter";
-import {SocketTypes} from "@/editor/sockets";
+import i18n from "../i18n";
+import taskHandler from "../controlFlow/EventEmitter";
+import {SocketTypes} from "../sockets";
 
-export class SetVarComponent extends Rete.Component {
+export class SetVarComponent extends Component {
 
     types: Map<number, string>;
 

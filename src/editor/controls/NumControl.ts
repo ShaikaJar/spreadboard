@@ -1,10 +1,10 @@
-import Rete from "rete";
+import Rete, { Control } from "rete";
 //@ts-ignore
-import VueNumControl from "@/components/VueNumControl.vue";
-import i18n from "@/i18n";
+import VueNumControl from "../components/VueNumControl.vue";
+import i18n from "../i18n";
 
 
-export class NumControl extends Rete.Control {
+export class NumControl extends Control {
     private component: any;
     private props: Object;
 

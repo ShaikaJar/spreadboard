@@ -1,12 +1,12 @@
-import Rete, {Node as RNode} from "rete";
+import Rete, {Component, Node as RNode} from "rete";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import * as Socket from "../sockets";
-import * as Sockets from "@/editor/sockets";
-import i18n from "@/i18n";
+import * as Sockets from "../sockets";
+import i18n from "../i18n";
 import {SocketTypes} from "../sockets";
 
-export class OutputComponent extends Rete.Component {
+export class OutputComponent extends Component {
     containerQuery;
 
     constructor(containerQuery: string) {

@@ -1,10 +1,10 @@
-import Rete from "rete";
+import Rete, {Control } from "rete";
 //@ts-ignore
-import VueTextControl from "@/components/VueTextControl.vue";
-import i18n from "@/i18n";
+import VueTextControl from "../components/VueTextControl.vue";
+import i18n from "../i18n";
 
 
-export class TextControl extends Rete.Control {
+export class TextControl extends Control {
     private component: any;
     private props: any;
 

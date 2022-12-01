@@ -1,14 +1,13 @@
-import Rete, {Node as RNode} from "rete";
-import {NumControl} from "@/editor/controls/NumControl";
+import Rete, {Component, Node as RNode} from "rete";
+import {NumControl} from "../controls/NumControl";
 
-import * as Sockets from "@/editor/sockets";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
-import i18n from "@/i18n";
-import {editor} from "@/editor";
-import {SocketTypes} from "@/editor/sockets";
+import i18n from "../i18n";
+import {editor} from "../index";
+import {SocketTypes} from "../sockets";
 
-export class AddComponent extends Rete.Component {
+export class AddComponent extends Component {
     constructor(){
         super(i18n.de.add);
     }

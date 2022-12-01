@@ -1,10 +1,10 @@
-import Rete from "rete";
+import Rete, { Control } from "rete";
 //@ts-ignore
-import VueLoadingControl from "@/components/VueLoadingControl.vue";
-import i18n from "@/i18n";
+import VueLoadingControl from "../components/VueLoadingControl.vue";
+import i18n from "../i18n";
 
 
-export class LoadingControl extends Rete.Control {
+export class LoadingControl extends Control {
     private component: any;
     private props: Object;
 

@@ -1,13 +1,13 @@
-import Rete, {Node as RNode} from "rete";
-import * as Sockets from "@/editor/sockets";
-import {ButtonControl} from "@/editor/controls/ButtonControl";
+import Rete, {Component, Node as RNode} from "rete";
+import * as Sockets from "../sockets";
+import {ButtonControl} from "../controls/ButtonControl";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
-import i18n from "@/i18n";
-import taskHandler from "@/editor/controlFlow/EventEmitter";
-import {SocketTypes} from "@/editor/sockets";
+import i18n from "../i18n";
+import taskHandler from "../controlFlow/EventEmitter";
+import {SocketTypes} from "../sockets";
 
-export class ButtonComponent extends Rete.Component {
+export class ButtonComponent extends Component {
 
     constructor(){
         super(i18n.de.button);

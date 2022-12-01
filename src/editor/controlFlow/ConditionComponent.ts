@@ -1,13 +1,12 @@
-import Rete, {Connection, Input, Node as RNode, Output, Socket} from "rete";
-import {NumControl} from "@/editor/controls/NumControl";
+import Rete, {Connection, Input, Node as RNode, Output, Socket, Component} from "rete";
+import {NumControl} from "../controls/NumControl";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
-import i18n from "@/i18n";
-import taskHandler from "@/editor/controlFlow/EventEmitter";
-import {SocketTypes} from "@/editor/sockets";
-import {parseForESLint} from "@typescript-eslint/parser";
+import i18n from "../i18n";
+import taskHandler from "../controlFlow/EventEmitter";
+import {SocketTypes} from "../sockets";
 
-export class ConditionComponent extends Rete.Component {
+export class ConditionComponent extends Component {
 
     constructor() {
         super(i18n.de.condition);
