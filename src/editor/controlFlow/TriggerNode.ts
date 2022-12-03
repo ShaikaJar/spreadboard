@@ -4,11 +4,11 @@ import {ButtonControl} from "../controls/ButtonControl";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import i18n from "../i18n";
-import taskHandler from "../controlFlow/EventEmitter";
-import eventEmitter from "../controlFlow/EventEmitter";
+import taskHandler from "./EventEmitter";
+import eventEmitter from "./EventEmitter";
 import {SocketTypes} from "../sockets";
 
-export class TriggerComponent extends Component {
+export class TriggerNode extends Component {
 
     constructor(){
         super(i18n.de.trigger);

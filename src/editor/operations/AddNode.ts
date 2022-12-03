@@ -7,7 +7,7 @@ import i18n from "../i18n";
 import {editor} from "../index";
 import {SocketTypes} from "../sockets";
 
-export class AddComponent extends Component {
+export class AddNode extends Component {
     constructor(){
         super(i18n.de.add);
     }

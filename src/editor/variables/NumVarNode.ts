@@ -7,7 +7,7 @@ import i18n from "../i18n";
 import {editor} from "../index";
 import {SocketTypes} from "../sockets";
 
-export class NumVarComponent extends Component {
+export class NumVarNode extends Component {
 
     private declare varKey:string;
 

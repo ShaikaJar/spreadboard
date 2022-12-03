@@ -7,7 +7,7 @@ import {editor} from "../index";
 import {SocketTypes} from "../sockets";
 import {BoolControl} from "../controls/BoolControl";
 
-export class BoolComponent extends Component {
+export class BoolNode extends Component {
 
     constructor() {
         super(i18n.de.bool);

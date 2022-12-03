@@ -4,10 +4,10 @@ import {ButtonControl} from "../controls/ButtonControl";
 import {Node as DNode} from "rete/types/core/data";
 import {IOs} from "rete/types/engine/component";
 import i18n from "../i18n";
-import taskHandler from "../controlFlow/EventEmitter";
+import taskHandler from "./EventEmitter";
 import {SocketTypes} from "../sockets";
 
-export class ButtonComponent extends Component {
+export class ButtonNode extends Component {
 
     constructor(){
         super(i18n.de.button);

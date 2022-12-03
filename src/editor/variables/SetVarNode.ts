@@ -5,7 +5,7 @@ import i18n from "../i18n";
 import taskHandler from "../controlFlow/EventEmitter";
 import {SocketTypes} from "../sockets";
 
-export class SetVarComponent extends Component {
+export class SetVarNode extends Component {
 
     types: Map<number, string>;
 

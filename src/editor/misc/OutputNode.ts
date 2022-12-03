@@ -6,7 +6,7 @@ import * as Sockets from "../sockets";
 import i18n from "../i18n";
 import {SocketTypes} from "../sockets";
 
-export class OutputComponent extends Component {
+export class OutputNode extends Component {
     containerQuery;
 
     constructor(containerQuery: string) {

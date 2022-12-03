@@ -6,11 +6,11 @@ import i18n from "../i18n";
 import {Variable, Variables} from "../variables/Variable";
 import * as Sockets from "../sockets";
 import {editor} from "../index";
-import taskHandler from "../controlFlow/EventEmitter";
+import taskHandler from "./EventEmitter";
 import {SocketTypes} from "../sockets";
 import {LoadingControl} from "../controls/LoadingControl";
 
-export class WaitComponent extends Component {
+export class WaitNode extends Component {
 
 
     private declare varKey:string;

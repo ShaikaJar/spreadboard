@@ -6,20 +6,20 @@ import ContextMenuPlugin from "rete-context-menu-plugin";
 //@ts-ignore
 import AreaPlugin from "rete-area-plugin";
 import DockPlugin from "rete-dock-plugin";
-import {OutputComponent} from "./misc/OutputComponent";
-import {AddComponent} from "./operations/AddComponent";
-import {NumComponent} from "./values/NumComponent";
-import {TextComponent} from "./values/TextComponent";
-import {CombineComponent} from "./operations/CombineComponent";
-import {HeaderComponent} from "./misc/HeaderComponent";
-import {NumVarComponent} from "./variables/NumVarComponent";
-import {ButtonComponent} from "./controlFlow/ButtonComponent";
-import {SetVarComponent} from "./variables/SetVarComponent";
-import {WaitComponent} from "./controlFlow/WaitComponent";
-import {TriggerComponent} from "./controlFlow/TriggerComponent";
-import {EventComponent} from "./controlFlow/EventComponent";
-import {BoolComponent} from "./values/BoolComponent";
-import {ConditionComponent} from "./controlFlow/ConditionComponent";
+import {OutputNode} from "./misc/OutputNode";
+import {AddNode} from "./operations/AddNode";
+import {NumNode} from "./values/NumNode";
+import {TextNode} from "./values/TextNode";
+import {CombineNode} from "./operations/CombineNode";
+import {HeaderNode} from "./misc/HeaderNode";
+import {NumVarNode} from "./variables/NumVarNode";
+import {ButtonNode} from "./controlFlow/ButtoNode";
+import {SetVarNode} from "./variables/SetVarNode";
+import {WaitNode} from "./controlFlow/WaitNode";
+import {TriggerNode} from "./controlFlow/TriggerNode";
+import {EventNode} from "./controlFlow/EventNode";
+import {BoolNode} from "./values/BoolNode";
+import {ConditionNode} from "./controlFlow/ConditionNode";
 
 
 import eventEmitter from "./controlFlow/EventEmitter";
@@ -63,7 +63,7 @@ async function init(container: HTMLElement, saveObj: Object = {id:"demo@0.1.0", 
 
     // register before dock plugin to prevent showing in dock
 
-    const outputComp = new OutputComponent(".output-view");
+    const outputComp = new OutputNode(".output-view");
     editor.register(outputComp);
     engine.register(outputComp);
 
@@ -80,19 +80,19 @@ async function init(container: HTMLElement, saveObj: Object = {id:"demo@0.1.0", 
 
     const compList =
         [
-            new AddComponent(),
-            new NumComponent(),
-            new TextComponent(),
-            new CombineComponent(),
-            new HeaderComponent(),
-            new NumVarComponent(),
-            new ButtonComponent(),
-            new SetVarComponent(),
-            new WaitComponent(),
-            new TriggerComponent(),
-            new EventComponent(),
-            new BoolComponent(),
-            new ConditionComponent()
+            new AddNode(),
+            new NumNode(),
+            new TextNode(),
+            new CombineNode(),
+            new HeaderNode(),
+            new NumVarNode(),
+            new ButtonNode(),
+            new SetVarNode(),
+            new WaitNode(),
+            new TriggerNode(),
+            new EventNode(),
+            new BoolNode(),
+            new ConditionNode()
         ];
 
     for (let i = 0; i < compList.length; i++) {
