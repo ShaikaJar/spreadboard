@@ -24,6 +24,9 @@ import {ConditionNode} from "./controlFlow/ConditionNode";
 
 import eventEmitter from "./controlFlow/EventEmitter";
 import {Variables} from "./variables/Variable";
+import { MultNode } from "./operations/MultNode";
+import { GreaterNode } from "./operations/GreaterNode";
+import { EqualNode } from "./operations/EqualNode";
 
 let htmlContainer: any = null;
 
@@ -80,19 +83,28 @@ async function init(container: HTMLElement, saveObj: Object = {id:"demo@0.1.0", 
 
     const compList =
         [
-            new AddNode(),
             new NumNode(),
-            new TextNode(),
-            new CombineNode(),
-            new HeaderNode(),
+            new AddNode(),
+            new MultNode(),
             new NumVarNode(),
-            new ButtonNode(),
+
+            new ConditionNode(),
+            new GreaterNode(),
+            new EqualNode(),
+            new BoolNode(),
+
             new SetVarNode(),
+
+            new ButtonNode(),
             new WaitNode(),
             new TriggerNode(),
             new EventNode(),
-            new BoolNode(),
-            new ConditionNode()
+
+
+            new TextNode(),
+            new CombineNode(),
+            new HeaderNode(),
+            
         ];
 
     for (let i = 0; i < compList.length; i++) {
@@ -121,6 +133,7 @@ async function init(container: HTMLElement, saveObj: Object = {id:"demo@0.1.0", 
 
     editor.view.resize();
     editor.trigger('process');
+
 }
 
 

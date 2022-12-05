@@ -86,14 +86,15 @@
   }
   @media only screen and (max-width:1150px) {
     .dock > .dock-item{
-        margin-top: -25px;
+        margin-top: -15px;
+        margin-bottom: -15px;
         transform: scale(0.7);
     }
   }
   @media only screen and (max-width:1050px) {
     .dock > .dock-item{
-        margin-top: -50px;
-        margin-bottom: 30px;
+        margin-top: -20px;
+        margin-bottom: -15px;
         transform: scale(0.65);
     }
   }
