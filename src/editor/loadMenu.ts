@@ -206,3 +206,28 @@ export async function load(save: any) {
 export function loadExample() {
     load(save);
 }
+
+
+import { listen } from '@tauri-apps/api/event'
+
+export async function init(){
+
+// listen to the `click` event and get a function to remove the event listener
+// there's also a `once` function that subscribes to an event and automatically unsubscribes the listener on the first event
+const unlisten = await listen('file', (event) => {
+    switch(event.payload){
+        case "open":
+            importBoard();
+            break;
+        case "save":
+            saveBoard();
+            break;
+        case "clear":
+            clearBoard();
+            break;
+        case "example":
+            loadExample();
+            break;
+    }
+})
+}

@@ -5,6 +5,7 @@ import App from "./App.vue";
 import * as VueRouter from "vue-router";
 import EditorPage from "./editor_page/EditorPage.vue";
 import PreviewPage from "./preview_page/PreviewPage.vue";
+import { init } from './editor/loadMenu';
 
 const router = VueRouter.createRouter({
     history: VueRouter.createWebHashHistory(),
@@ -25,3 +26,5 @@ const app = createApp(App)
 app.use(router);
 
 app.mount("#app");
+
+init()
