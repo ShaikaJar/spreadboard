@@ -107,7 +107,7 @@ import ReteDock from './ReteDock.vue';
 .dock-container{
     width: 30%;
     overflow-x: hidden;
-
+    object-fit: contain;
 }
 
 

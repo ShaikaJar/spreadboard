@@ -1,6 +1,6 @@
 <template>
-    <div class="dock" id="dock" :style="'height:'+(windowHeight-60)+'px'">
-    </div>
+  <div class="dock" id="dock">
+  </div>
 
 </template>
   
@@ -25,6 +25,16 @@
       this.handleResize();
     },
     methods : {
+      triggerVisible(){
+        if(document.getElementById("sidebar")?.getAttribute("open")=="false"){
+          console.log("Click")
+          document.getElementById("sidebar")?.setAttribute("open", "true")
+        }
+        else{
+          console.log("Close")
+          document.getElementById("sidebar")?.setAttribute("open", "false")
+        }
+      },
       handleResize() {
           if(!this.resizing)
             this.resizing = true;
@@ -40,47 +50,55 @@
 </script>
   
 <style>
-  .dock {
-    background-color: inherit;
-    overflow-y: scroll !important;
 
-    border-right: 1px solid #6f9aea;
+.dock {
+  background-color: inherit;
+  overflow-y: scroll !important;
+  overflow-x: hidden;
 
-    display: flex;
-    align-items: center;
-    flex-flow: column;
-  }
+  border-right: 1px solid #6f9aea;
+  max-width: 20%;
+  min-width: 15%;
+
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  transition: 1s ease-in-out;
+  gap: 1px ;
+}
+
+.dock > .dock-item > .node{
+  width: 200px;
+}
 
   .dock > .dock-item{
-      padding: 0;
-      padding-top: 10px;
-      transform: scale(1);
+      transition: 0.5s ease-in-out;
+      margin: 0;
+      margin-top: 10%;
   }
 
-
-  @media only screen and (max-width: 980px){
+  @media only screen and (max-width:1500px) {
     .dock > .dock-item{
-      transform: scale(0.85);
+        margin-top: -10px;
+        margin-bottom: -5px;
+        transform: scale(0.8);
+    }
+  }
+  @media only screen and (max-width:1150px) {
+    .dock > .dock-item{
+        margin-top: -25px;
+        transform: scale(0.7);
+    }
+  }
+  @media only screen and (max-width:1050px) {
+    .dock > .dock-item{
+        margin-top: -50px;
+        margin-bottom: 30px;
+        transform: scale(0.65);
     }
   }
 
-  @media only screen and (max-width: 820px){
-    .dock > .dock-item{
-      transform: scale(0.75);
-    }
-  }
+  
 
 
-  /*
-  @media only screen and (max-height: 750px){
-    .dock > .dock-item{
-      transform: scale(0.65);
-    }
-  }
-  */
-
-  .dock > .dock-item > .node{
-    width: 200px;
-    min-width: 20px;
-  }
   </style>

@@ -75,6 +75,7 @@ types.add("text")
 types.add("number")
 types.add("boolean")
 types.add("act")
+types.add("vue")
 
 types.numSocket().valSocket.combineWith(types.textSocket().valSocket);
 

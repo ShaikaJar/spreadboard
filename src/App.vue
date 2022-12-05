@@ -11,7 +11,7 @@
   margin: 0 !important;
 }
 
-html, body{
+html, body, #app{
     background-color: #2c3e50;
   margin: 0 !important;
   height: 100% !important;

@@ -79,7 +79,9 @@
         "height": 600,
         "resizable": true,
         "title": "spreadboard",
-        "width": 800
+        "width": 900,
+        "minWidth": 800,
+        "minHeight": 600
       }
     ]
   }

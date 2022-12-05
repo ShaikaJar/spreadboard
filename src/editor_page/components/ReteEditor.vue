@@ -1,5 +1,5 @@
 <template>
-    <div class="rete" id="rete" :style="'height:'+(windowHeight-20)+'px'">
+    <div class="rete" id="rete" :style="'height:'+(windowHeight)+'px'">
         Test
     </div>
 </template>
@@ -37,7 +37,7 @@ export default {
 
 
           this.windowHeight = window.innerHeight;
-          console.log("Test");
+          console.log(this.windowHeight);
           this.resizing = false;
         }
     }
@@ -46,8 +46,9 @@ export default {
   
 <style>
   .rete {
-    width: 100%;
+    flex-grow: 1;
     display: block;
+    object-fit: fill;
     border-left: 1px solid #6f9aea;
     border-top: 1px solid #6f9aea;
     overflow: hidden;
