@@ -11,7 +11,6 @@
 </template>
 
 <script lang="ts">
-import {onMounted} from "vue";
 
 export default {
   props: ['readonly', 'emitter', 'ikey', 'getData', 'putData', 'title'],

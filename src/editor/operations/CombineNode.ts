@@ -2,13 +2,13 @@ import Rete, {Component, Node as RNode} from "rete";
 
 import * as Sockets from "../sockets";
 import {TextControl} from "../controls/TextControl";
-import {IOs} from "rete/types/engine/component";
-import {Node as DNode} from "rete/types/core/data";
 import i18n from "../i18n";
 import {editor} from "../index";
 import {SocketTypes} from "../sockets";
+import { NodeData, WorkerInputs, WorkerOutputs } from "rete/types/core/data";
 
 export class CombineNode extends Component {
+    category:string[] = ["Text"];
     constructor(){
         super(i18n.de.combine);
     }
@@ -28,7 +28,7 @@ export class CombineNode extends Component {
             .addOutput(out);
     }
 
-    worker(node:DNode, inputs:IOs, outputs:IOs, ...args: any) : any {
+    worker(node:NodeData, inputs:WorkerInputs, outputs:WorkerOutputs, ...args: any) : any {
         let n1 = inputs['txt'].length?inputs['txt'][0]:node.data.txt;
         if(n1 == undefined)
             n1 = "";
@@ -37,8 +37,7 @@ export class CombineNode extends Component {
             n2 = "";
         const sum = n1 + "" + n2;
 
-        //@ts-ignore
-        editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(sum);
+        editor.nodes.find((n:RNode) => n.id == node.id).controls.get('preview').setValue(sum);
         outputs['txt'] = sum;
         return null;
     }

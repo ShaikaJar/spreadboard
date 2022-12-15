@@ -1,6 +1,4 @@
 import Rete, {Component, Node as RNode} from "rete";
-import {Node as DNode} from "rete/types/core/data";
-import {IOs} from "rete/types/engine/component";
 import {NumControl} from "../controls/NumControl";
 import i18n from "../i18n";
 import {Variable, Variables} from "../variables/Variable";
@@ -9,9 +7,11 @@ import {editor} from "../index";
 import taskHandler from "./EventEmitter";
 import {SocketTypes} from "../sockets";
 import {LoadingControl} from "../controls/LoadingControl";
+import { NodeData, WorkerInputs, WorkerOutputs } from "rete/types/core/data";
 
 export class WaitNode extends Component {
 
+    category:string[] = ["Kontrollfluss"];
 
     private declare varKey:string;
 
@@ -46,7 +46,7 @@ export class WaitNode extends Component {
 
         this.variables().set(node.id, variable);
 
-        return node
+        node
             .addInput(inTime)
             .addControl(preview)
             .addOutput(new Rete.Output('act', '', SocketTypes.actSocket()))
@@ -57,17 +57,17 @@ export class WaitNode extends Component {
         return this.varKey+':'+nodeId;
     }
 
-    worker(node: DNode, inputs: IOs, outputs: IOs): any {
+    worker(node: NodeData, inputs: WorkerInputs, outputs: WorkerOutputs): any {
 
         taskHandler.removeListener(node.id);
 
         const nodeComp = editor.nodes.find((n: RNode) => n.id == node.id)!;
         const variable = this.variables().get(node.id)!;
 
-        const initVal = inputs['val'].length ? inputs['val'][0] : node.data.val;
+        const initVal = (inputs['val'].length ? inputs['val'][0] : node.data.val) as number;
         outputs['act'] = this.getActOut(node.id);
         variable.setInitial(initVal);
-        taskHandler.on([inputs['act'][0]!], node.id, (event: string, ...args: any) => {
+        taskHandler.on([(inputs['act'] as string[])[0]!], node.id, (event: string, ...args: any) => {
             this.task(node, inputs)
         })
     }
@@ -76,7 +76,7 @@ export class WaitNode extends Component {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    async task(node: DNode, inputs: IOs) {
+    async task(node: NodeData, inputs: WorkerInputs) {
 
         //console.log("Try Waiting")
         const variable = this.variables().get(node.id)!;

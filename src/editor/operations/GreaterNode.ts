@@ -1,14 +1,15 @@
 import Rete, {Component, Node as RNode} from "rete";
 import {NumControl} from "../controls/NumControl";
 
-import {Node as DNode} from "rete/types/core/data";
-import {IOs} from "rete/types/engine/component";
 import i18n from "../i18n";
 import {editor} from "../index";
 import {SocketTypes} from "../sockets";
 import { BoolControl } from "../controls/BoolControl";
+import { NodeData, WorkerInputs, WorkerOutputs } from "rete/types/core/data";
 
 export class GreaterNode extends Component {
+
+    category:string[] = ["Mathe"];
     constructor(){
         super(i18n.de.greater);
     }
@@ -28,13 +29,12 @@ export class GreaterNode extends Component {
             .addOutput(out);
     }
 
-    worker(node: DNode, inputs:IOs, outputs:IOs, ...args: any) {
+    worker(node: NodeData, inputs:WorkerInputs, outputs:WorkerOutputs, ...args: any) {
         const n1: number = (<number>(inputs['num'].length ? inputs['num'][0] : node.data.num));
         const n2: number = <number>(inputs['num2'].length?inputs['num2'][0]:node.data.num2);
         const compare: boolean = n1 > n2;
 
-        //@ts-ignore
-        const preview = editor!.nodes!.find(n => n.id == node.id)!.controls.get('preview')!;
+        const preview = editor!.nodes!.find((n:RNode) => n.id == node.id)!.controls.get('preview')!;
         // @ts-ignore
         preview.setValue(compare);
         outputs['bool'] = compare;

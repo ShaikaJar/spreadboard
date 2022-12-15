@@ -1,5 +1,4 @@
 import Rete, { Control } from "rete";
-//@ts-ignore
 import VueBoolControl from "../components/VueBoolControl.vue";
 
 

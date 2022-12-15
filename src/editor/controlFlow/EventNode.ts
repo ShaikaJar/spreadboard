@@ -1,15 +1,15 @@
 import Rete, {Component, Node as RNode} from "rete";
 import * as Sockets from "../sockets";
 import {ButtonControl} from "../controls/ButtonControl";
-import {Node as DNode} from "rete/types/core/data";
-import {IOs} from "rete/types/engine/component";
 import i18n from "../i18n";
 import taskHandler from "./EventEmitter";
 import eventEmitter from "./EventEmitter";
 import {SocketTypes} from "../sockets";
+import { NodeData, WorkerInputs, WorkerOutputs } from "rete/types/core/data";
 
 export class EventNode extends Component {
 
+    category:string[] = ["Kontrollfluss"];
     private declare varKey:string;
 
     constructor(){
@@ -26,14 +26,14 @@ export class EventNode extends Component {
         node.addOutput(new Rete.Output('act', '', SocketTypes.actSocket()))
     }
 
-    worker(node: DNode, inputs:IOs, outputs:IOs): any {
+    worker(node: NodeData, inputs:WorkerInputs, outputs:WorkerOutputs): any {
         outputs["actRef"] = this.getActOut(node.id)+':trigger';
         outputs['act'] = this.getActOut(node.id)+':event';
         eventEmitter.removeListener(node.id);
-        eventEmitter.on([outputs['actRef']], node.id, (event:string,...args:any)=>{
+        eventEmitter.on([outputs['actRef']as string], node.id, (event:string,...args:any)=>{
             console.log("triggered")
             if(outputs['act'] != null)
-                eventEmitter.trigger(outputs['act']);
+                eventEmitter.trigger(outputs['act']as string);
         });
     }
 }

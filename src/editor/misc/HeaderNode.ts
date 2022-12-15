@@ -1,13 +1,15 @@
 import Rete, {Component, Node as RNode} from "rete";
 import * as Sockets from "../sockets";
 import {TextControl} from "../controls/TextControl";
-import {Node as DNode} from "rete/types/core/data";
-import {IOs} from "rete/types/engine/component";
 import i18n from "../i18n";
 import {editor} from "../index";
 import {SocketTypes} from "../sockets";
+import { NodeData, WorkerInputs, WorkerOutputs } from "rete/types/core/data";
 
 export class HeaderNode extends Component {
+
+    category:string[] = ["Anderes"];
+
     constructor(){
         super(i18n.de.header);
     }
@@ -18,18 +20,17 @@ export class HeaderNode extends Component {
 
         inp1.addControl(new TextControl(editor, 'txt', false));
 
-        return node
+        node
             .addInput(inp1)
             .addControl(new TextControl(editor, 'preview', true))
             .addOutput(out);
     }
 
-    worker(node: DNode, inputs:IOs, outputs:IOs) {
+    worker(node: NodeData, inputs:WorkerInputs, outputs:WorkerOutputs) {
         const n1 = inputs['txt'].length?inputs['txt'][0]:node.data.txt;
         const h = "<h1>"+n1+"</h1>";
-
-        // @ts-ignore
-        editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(h);
+        
+        editor.nodes.find((n: RNode) => n.id == node.id).controls.get('preview').setValue(h);
         outputs['h'] = h;
     }
 }

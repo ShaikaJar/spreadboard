@@ -1,11 +1,12 @@
 import Rete, {Component, Connection, Input, Node as RNode, Output} from "rete";
-import {Node as DNode} from "rete/types/core/data";
-import {IOs} from "rete/types/engine/component";
 import i18n from "../i18n";
 import taskHandler from "../controlFlow/EventEmitter";
 import {SocketTypes} from "../sockets";
+import { NodeData, WorkerInputs, WorkerOutputs } from "rete/types/core/data";
+import { Variable } from "./Variable";
 
 export class SetVarNode extends Component {
+    category:string[] = ["Kontrollfluss"];
 
     types: Map<number, string>;
 
@@ -23,24 +24,21 @@ export class SetVarNode extends Component {
         const outAct = new Rete.Output('act', i18n.de.act, SocketTypes.actSocket());
 
 
-        return node
+        node
             .addInput(inRef)
             .addInput(inVal)
             .addInput(inpAct)
             .addOutput(outAct);
     }
 
-    worker(node: DNode, inputs: IOs, outputs: IOs): any {
+    worker(node: NodeData, inputs: WorkerInputs, outputs: WorkerOutputs): any {
 
         taskHandler.removeListener(node.id);
 
-        // @ts-ignore
-        const nodeComp: RNode = this.editor!.nodes!.find(n => n.id == node.id);
+        const nodeComp: RNode = this.editor!.nodes!.find((n:RNode) => n.id == node.id)!;
 
-        // @ts-ignore
         const refConnection = nodeComp.getConnections().find((value, index) => (value.input.key == 'ref'));
 
-        // @ts-ignore
         const valConnection = nodeComp.getConnections().find((value, index) => (value.input.key == 'val'));
 
         if (refConnection && refConnection.output.socket &&
@@ -54,12 +52,12 @@ export class SetVarNode extends Component {
         }
 
         outputs['act'] = node.id+"";
-        taskHandler.on([inputs['act'][0]!], node.id, (event:string, ...arsg:any)=>{this.task(node,inputs)});
+        taskHandler.on([(inputs['act'] as string[])[0]!], node.id, (event:string, ...arsg:any)=>{this.task(node,inputs)});
     }
 
-    async task(node: DNode, inputs: IOs) {
-        const ref = inputs['ref'][0];
-        const val = inputs['val'][0];
+    async task(node: NodeData, inputs: WorkerInputs) {
+        const ref = inputs['ref'][0] as Variable<number>;
+        const val = inputs['val'][0] as number;
         if (ref && val!=null) {
             ref.set(val);
         }

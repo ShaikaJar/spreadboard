@@ -1,24 +1,22 @@
 <template>
     <div class="spreadboard">
-        <ReteDock/>
+        <SelectorBar/>
         <ReteEditor/>
     </div>
 </template>
   
 <script lang="ts">
 import ReteEditor from './components/ReteEditor.vue';
-import ReteDock from './components/ReteDock.vue';
-import DockContainer from './components/DockContainer.vue';
+import SelectorBar from './components/SelectorBar.vue';
 //@ts-ignore
 import {VueScreenSizeMixin} from "vue-screen-size";
 export default {
     name: "EditorPage",
     mixins: [VueScreenSizeMixin],
-    components: {        
-        ReteEditor,
-        ReteDock,
-        DockContainer,
-    },
+    components: {
+    ReteEditor,
+    SelectorBar
+},
 }
 </script>
 

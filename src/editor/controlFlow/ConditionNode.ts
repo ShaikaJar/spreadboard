@@ -1,13 +1,12 @@
 import Rete, {Connection, Input, Node as RNode, Output, Socket, Component} from "rete";
-import {NumControl} from "../controls/NumControl";
-import {Node as DNode} from "rete/types/core/data";
-import {IOs} from "rete/types/engine/component";
 import i18n from "../i18n";
 import taskHandler from "./EventEmitter";
 import {SocketTypes} from "../sockets";
+import { NodeData, WorkerInputs, WorkerOutputs } from "rete/types/core/data";
 
 export class ConditionNode extends Component {
 
+    category:string[] = ["Kontrollfluss"];
     constructor() {
         super(i18n.de.condition);
     }
@@ -21,7 +20,7 @@ export class ConditionNode extends Component {
         const outRes = new Rete.Output('res', i18n.de.res, SocketTypes.anySocket);
 
 
-        return node
+        node
             .addInput(inCondition)
             .addInput(inIf)
             .addInput(inElse)
@@ -47,20 +46,16 @@ export class ConditionNode extends Component {
         }
     }
 
-    worker(node: DNode, inputs: IOs, outputs: IOs): any {
+    worker(node: NodeData, inputs: WorkerInputs, outputs: WorkerOutputs): any {
 
         taskHandler.removeListener(node.id);
 
-        // @ts-ignore
-        const nodeComp: RNode = this.editor!.nodes!.find(n => n.id == node.id);
+        const nodeComp: RNode = this.editor!.nodes!.find(n => n.id == node.id)!;
 
-        // @ts-ignore
         const ifConn = nodeComp.getConnections().find((value, index) => (value.input.key == 'if'));
 
-        // @ts-ignore
         const elseConn = nodeComp.getConnections().find((value, index) => (value.input.key == 'else'));
 
-        // @ts-ignore
         const resConn = nodeComp.getConnections().find((value, index) => (value.input.key == 'res'));
 
 

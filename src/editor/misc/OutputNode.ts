@@ -1,12 +1,13 @@
 import Rete, {Component, Node as RNode} from "rete";
-import {Node as DNode} from "rete/types/core/data";
-import {IOs} from "rete/types/engine/component";
 import * as Socket from "../sockets";
 import * as Sockets from "../sockets";
 import i18n from "../i18n";
 import {SocketTypes} from "../sockets";
+import { NodeData, WorkerInputs, WorkerOutputs } from "rete/types/core/data";
 
 export class OutputNode extends Component {
+
+    category:string[] = ["Anderes"];
     containerQuery;
 
     constructor(containerQuery: string) {
@@ -16,17 +17,15 @@ export class OutputNode extends Component {
 
     async builder(node: RNode) {
         node.addInput(new Rete.Input("in", "", SocketTypes.textSocket().valSocket))
-        return node;
+        node;
     }
 
 
-    // eslint-disable-next-line no-unused-vars
-    worker(node: DNode, inputs: IOs, outputs: IOs) {
+    worker(node: NodeData, inputs: WorkerInputs, outputs: WorkerOutputs) {
         if (this.containerQuery) {
-            // eslint-disable-next-line no-undef
             const container = document.querySelector(this.containerQuery);
             if (container)
-                container.innerHTML = (inputs['in'][0] != undefined && inputs['in'][0] != null) ? inputs['in'][0] : "";
+                container.innerHTML = ((inputs['in'][0] != undefined && inputs['in'][0] != null) ? inputs['in'][0] : "") as string;
 
         }
     }

@@ -12,11 +12,10 @@
   "dependencies": {
     "@tauri-apps/api": "^1.1.0",
     "regenerator-runtime": "^0.13.11",
-    "rete": "^1.3.0",
+    "rete": "^1.5.0-rc1",
     "rete-area-plugin": "^0.2.1",
     "rete-connection-plugin": "^0.9.0",
-    "rete-context-menu-plugin": "^1.0.0-alpha9",
-    "rete-dock-plugin": "^0.2.1",
+    "rete-context-menu-plugin": "file:../context-menu-plugin",
     "rete-vue-render-plugin": "^1.0.0-rc2",
     "vue": "^3.2.37",
     "vue-router": "^4.0.15",

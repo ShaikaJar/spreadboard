@@ -1,13 +1,14 @@
 import Rete, {Component, Node as RNode} from "rete";
 import * as Sockets from "../sockets";
 import {ButtonControl} from "../controls/ButtonControl";
-import {Node as DNode} from "rete/types/core/data";
-import {IOs} from "rete/types/engine/component";
 import i18n from "../i18n";
 import taskHandler from "./EventEmitter";
 import {SocketTypes} from "../sockets";
+import { NodeData, WorkerInputs, WorkerOutputs } from "rete/types/core/data";
 
 export class ButtonNode extends Component {
+
+    category:string[] = ["Kontrollfluss"];
 
     constructor(){
         super(i18n.de.button);
@@ -20,7 +21,7 @@ export class ButtonNode extends Component {
         node.addOutput(new Rete.Output('act', '', SocketTypes.actSocket()))
     }
 
-    worker(node: DNode, inputs:IOs, outputs:IOs): any {
+    worker(node: NodeData, inputs:WorkerInputs, outputs:WorkerOutputs): any {
         outputs['act']= node.id+"-onClick";
     }
 }

@@ -5,7 +5,6 @@ import ConnectionPlugin from "rete-connection-plugin";
 import ContextMenuPlugin from "rete-context-menu-plugin";
 //@ts-ignore
 import AreaPlugin from "rete-area-plugin";
-import DockPlugin from "rete-dock-plugin";
 import {OutputNode} from "./misc/OutputNode";
 import {AddNode} from "./operations/AddNode";
 import {NumNode} from "./values/NumNode";
@@ -27,6 +26,7 @@ import {Variables} from "./variables/Variable";
 import { MultNode } from "./operations/MultNode";
 import { GreaterNode } from "./operations/GreaterNode";
 import { EqualNode } from "./operations/EqualNode";
+import { Component } from "rete/types/engine";
 
 let htmlContainer: any = null;
 
@@ -71,15 +71,17 @@ async function init(container: HTMLElement, saveObj: Object = {id:"demo@0.1.0", 
     engine.register(outputComp);
 
 
-    editor.use(ContextMenuPlugin);
-
-    //document.querySelector(".dock")!.innerHTML = "";
-
-    editor.use(DockPlugin, {
-        //@ts-ignore
-        container: document.querySelector(".dock"),
-        plugins: [VueRenderPlugin] // render plugins
-    });
+    editor.use(
+        ContextMenuPlugin,{
+            allocate(component: any){
+                if(component.category){
+                    return component.category;
+                }
+                else
+                    return [] as Array<string>
+            }
+        }
+        );
 
     const compList =
         [
